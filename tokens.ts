@@ -54,4 +54,5 @@ export const tokensOperadores = [
 
 //union de todos
 
-export const allTokens = [...tokensPalabrasReservadas];
+export const allTokens = [...tokensPalabrasReservadas, 
+    ...tokensOperadores];

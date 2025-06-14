@@ -20,15 +20,19 @@ export function lexer(input: string, user: string): void {
 
                 if (match) {
                     log.push('No hay errores');
+                    console.log('no hay errores')
                     text = text.slice(match[0].length);
                     matched = true;
                     break;
 
 
-                } else {
-                    log.push('Simbolo no reconocido')
-                    text = text.slice(1);
+                }
 
+                if (!matched) {
+
+                    log.push('Error simbolo no se reconoce');
+                    console.log('Error simbolo no se reconoce');
+                    text = text.slice(1);
                 }
 
             }
