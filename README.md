@@ -1,4 +1,4 @@
-# LexType
-Analizador Lexico de TypeScript utilizando PLY 
-Proyecto de Lenguajes de Programacion
+# LexType  
+Analizador Léxico de TypeScript utilizando PLY y su módulo lex  
+Proyecto de Lenguajes de Programación
 
