@@ -19,3 +19,4 @@ if (tienenMismosElementos(frutasSet, frutasMap)) {
 } else {
  console.log("El Set y el Map son diferentes.");
 }
+
