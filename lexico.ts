@@ -47,8 +47,19 @@ export function lexer(input: string, user: string): void {
         }
     });
 
+    // Obtener la fecha y hora actuales
+    const now = new Date();
+    const day = String(now.getDate()).padStart(2, '0'); // Día con dos dígitos
+    const month = String(now.getMonth() + 1).padStart(2, '0'); // Mes con dos dígitos (enero es 0)
+    const year = now.getFullYear();
+    const hours = String(now.getHours()).padStart(2, '0'); // Horas con dos dígitos
+    const minutes = String(now.getMinutes()).padStart(2, '0'); // Minutos con dos dígitos
+
+    // Formatear la fecha y hora en el formato deseado
+    const dateTimeFormatted = `${day}-${month}-${year}-${hours}h${minutes}`;
+
     // Escribir el log en un archivo
-    const logFileName = `${user}_lexer_log.txt`;
+    const logFileName = `lexico-${user}-${dateTimeFormatted}.txt`;
     fs.writeFileSync(logFileName, log.join('\n'));
     console.log(`Lexer log escrito en ${logFileName}`);
 
