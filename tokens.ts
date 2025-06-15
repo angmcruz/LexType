@@ -61,7 +61,19 @@ export const tokensDelimitadores = [
 ];
 
 
+export const tokensComentarios = [
+  { type: 'LINE_COMMENT', regex: /^\/\/.*/ },
+  { type: 'BLOCK_COMMENT', regex: /^\/\[\s\S]?\*\// }
+];
+
+export const tokensLiterales = [
+  { type: 'NUMBER', regex: /^\d+(\.\d+)?/ },
+  { type: 'STRING', regex: /^"(?:[^"\\]|\\.)"|^'(?:[^'\\]|\\.)/ },
+  { type: 'ID', regex: /^[$_a-zA-Z][\w$]*/ }
+]; 
+
 //union de todos
 
 export const allTokens = [...tokensPalabrasReservadas, 
-    ...tokensOperadores, ...tokensDelimitadores];
+    ...tokensOperadores, ...tokensDelimitadores, ...tokensComentarios,
+    ...tokensLiterales];
