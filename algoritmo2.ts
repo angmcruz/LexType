@@ -1,7 +1,7 @@
 
 /* Melissa Cruz */ 
 //Algoritmo para verificar si un map y un set tienen los mismos elementos
-let frutasSet: Set<string> = new Set(["manzana", "pera", "uva"]);
+/*let frutasSet: Set<string> = new Set(["manzana", "pera", "uva"]);
 let frutasMap: Map<string, number> = new Map([
  ["manzana", 1],
  ["pera", 2],
@@ -19,6 +19,7 @@ if (tienenMismosElementos(frutasSet, frutasMap)) {
 } else {
  console.log("El Set y el Map son diferentes.");
 }
+ */
 
 export const codigo = ` 
 let frutasSet: Set<string> = new Set(["manzana", "pera", "uva"]);
