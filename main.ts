@@ -1,3 +1,4 @@
+import { codigoAl3 } from './algoritmo3';
 import { lexer } from './lexico';
 //import { codigo } from './algoritmo2';
 //agg tu cod 
@@ -8,4 +9,5 @@ let x = 5;
 `; 
 //lexer(codigo, 'melissa');
 lexer (codigo, 'probando');
+lexer (codigoAl3, 'probando')
 
