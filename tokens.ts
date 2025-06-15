@@ -57,7 +57,10 @@ export const tokensDelimitadores = [
   { type: 'RBRACE', regex: /^\}/ },
   { type: 'LBRACKET', regex: /^\[/ },
   { type: 'RBRACKET', regex: /^\]/ },
-  { type: 'SEMICOLON', regex: /^;/ }
+  { type: 'SEMICOLON', regex: /^;/ },
+  { type: 'DOT', regex: /^\./ },
+  { type: 'DOBBLEDOT', regex: /^\:/ },
+  { type: 'COMMA', regex: /^\,/ },
 ];
 
 
@@ -68,7 +71,7 @@ export const tokensComentarios = [
 
 export const tokensLiterales = [
   { type: 'NUMBER', regex: /^\d+(\.\d+)?/ },
-  { type: 'STRING', regex: /^"(?:[^"\\]|\\.)"|^'(?:[^'\\]|\\.)/ },
+  { type: 'STRING', regex: /^("(?:[^"\\]|\\.)*"|'(?:[^'\\]|\\.)*')/ },
   { type: 'ID', regex: /^[$_a-zA-Z][\w$]*/ }
 ]; 
 
