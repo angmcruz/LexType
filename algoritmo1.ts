@@ -1,6 +1,8 @@
 // Erick Murillo
 
 // Función para verificar si un string es palíndromo
+
+export const codigo2 = `
 function esPalindromo(s: string): boolean {
     if (s.length <= 1) {
         return true;
@@ -25,15 +27,17 @@ function sumarDigitos(n: number): number {
 // Pruebas
 const palabra1 = "radar";
 if (esPalindromo(palabra1)) {
-    console.log(`El string "${palabra1}" es un Palíndromo`);
+    console.log("El string "{palabra1}" es un Palíndromo");
 } else {
-    console.log(`El string "${palabra1}" no es Palíndromo`);
+    console.log("El string "{palabra1}" no es Palíndromo");
 }
 
 const numero1 = 135;
 const numero2 = 67;
 const numero3 = 1111;
 
-console.log(`La suma de dígitos de ${numero1} es: ${sumarDigitos(numero1)}`);
-console.log(`La suma de dígitos de ${numero2} es: ${sumarDigitos(numero2)}`);
-console.log(`La suma de dígitos de ${numero3} es: ${sumarDigitos(numero3)}`);
+console.log("La suma de dígitos de {numero1} es: {sumarDigitos(numero1)}");
+console.log("La suma de dígitos de {numero2} es: {sumarDigitos(numero2)}");
+console.log("La suma de dígitos de {numero3} es: {sumarDigitos(numero3)}");
+
+`;

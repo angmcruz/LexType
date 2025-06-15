@@ -1,4 +1,5 @@
 import { allTokens } from "./tokens";
+import * as fs from 'fs';
 
 
 // funcion que va a probar el codigo ejemplo
@@ -46,6 +47,9 @@ export function lexer(input: string, user: string): void {
         }
     });
 
-
+    // Escribir el log en un archivo
+    const logFileName = `${user}_lexer_log.txt`;
+    fs.writeFileSync(logFileName, log.join('\n'));
+    console.log(`Lexer log escrito en ${logFileName}`);
 
 }

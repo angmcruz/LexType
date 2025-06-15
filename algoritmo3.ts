@@ -35,7 +35,7 @@ if (todosMayoresA(salarios, umbral)) {
 }
  */
 
-export const codigoAl3 = `
+export const codigo3 = `
 function contarPares(numeros: number[]): number {
  let contador = 0;
  for (let i = 0; i < numeros.length; i++) {
