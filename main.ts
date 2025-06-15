@@ -1,11 +1,9 @@
 import { lexer } from './lexico';
-//import { codigo } from './algoritmo2';
-//agg tu cod 
+import { codigo } from './algoritmo2';
+import { codigo2 } from './algoritmo1';
 
 
-const codigo = `
-let x = 5;
-`; 
-//lexer(codigo, 'melissa');
-lexer (codigo, 'probando');
+
+lexer(codigo, 'melissa');
+lexer (codigo2, 'Erick');
 
