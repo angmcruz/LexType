@@ -1,37 +1,39 @@
-/*Javier Murillo*/
+// Erick Murillo
 
-// Contar cuántos números pares hay en un array
-function contarPares(numeros: number[]): number {
- let contador = 0;
- for (let i = 0; i < numeros.length; i++) {
- if (numeros[i] % 2 === 0) {
- contador++;
- }
- }
- return contador;
+// Función para verificar si un string es palíndromo
+function esPalindromo(s: string): boolean {
+    if (s.length <= 1) {
+        return true;
+    } else {
+        if (s[0] === s[s.length - 1]) {
+            return esPalindromo(s.substring(1, s.length - 1));
+        } else {
+            return false;
+        }
+    }
 }
-let arreglo: number[] = [2, 5, 8, 9, 12, 15];
-console.log(`Cantidad de números pares: ${contarPares(arreglo)}`);
 
-// Verificar si todos los valores de un Map son mayores a cierto valor
-function todosMayoresA(m: Map<string, number>, umbral: number): boolean {
- for (let valor of m.values()) {
- if (valor <= umbral) {
- return false;
- }
- }
- return true;
+// Función para sumar dígitos de un número
+function sumarDigitos(n: number): number {
+    if (n === 0) {
+        return 0;
+    } else {
+        return sumarDigitos(Math.floor(n / 10)) + (n % 10);
+    }
 }
-let salarios: Map<string, number> = new Map([
- ["Luis", 500],
- ["Ana", 800],
- ["Carlos", 1200]
-]);
-const umbral = 400;
-if (todosMayoresA(salarios, umbral)) {
- console.log("Todos los salarios son mayores al umbral.");
+
+// Pruebas
+const palabra1 = "radar";
+if (esPalindromo(palabra1)) {
+    console.log(`El string "${palabra1}" es un Palíndromo`);
 } else {
- console.log("Hay salarios menores o iguales al umbral.");
+    console.log(`El string "${palabra1}" no es Palíndromo`);
 }
 
-/*Javier Murillo*/
+const numero1 = 135;
+const numero2 = 67;
+const numero3 = 1111;
+
+console.log(`La suma de dígitos de ${numero1} es: ${sumarDigitos(numero1)}`);
+console.log(`La suma de dígitos de ${numero2} es: ${sumarDigitos(numero2)}`);
+console.log(`La suma de dígitos de ${numero3} es: ${sumarDigitos(numero3)}`);
