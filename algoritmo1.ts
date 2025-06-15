@@ -12,6 +12,7 @@ function contarPares(numeros: number[]): number {
 }
 let arreglo: number[] = [2, 5, 8, 9, 12, 15];
 console.log(`Cantidad de números pares: ${contarPares(arreglo)}`);
+
 // Verificar si todos los valores de un Map son mayores a cierto valor
 function todosMayoresA(m: Map<string, number>, umbral: number): boolean {
  for (let valor of m.values()) {
