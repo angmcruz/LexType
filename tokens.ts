@@ -50,9 +50,18 @@ export const tokensOperadores = [
   { type: 'NOT', regex: /^!/ }
 ];
 
+export const tokensDelimitadores = [
+  { type: 'LPAREN', regex: /^\(/ },
+  { type: 'RPAREN', regex: /^\)/ },
+  { type: 'LBRACE', regex: /^\{/ },
+  { type: 'RBRACE', regex: /^\}/ },
+  { type: 'LBRACKET', regex: /^\[/ },
+  { type: 'RBRACKET', regex: /^\]/ },
+  { type: 'SEMICOLON', regex: /^;/ }
+];
 
 
 //union de todos
 
 export const allTokens = [...tokensPalabrasReservadas, 
-    ...tokensOperadores];
+    ...tokensOperadores, ...tokensDelimitadores];
