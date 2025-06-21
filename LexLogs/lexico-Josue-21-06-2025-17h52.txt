@@ -1,0 +1,230 @@
+Línea 66: Reconozco el símbolo '/' como DIV
+Línea 66: Reconozco el símbolo '*' como MULT
+Línea 66: Reconozco el símbolo 'Javier' como ID
+Línea 66: Reconozco el símbolo 'Murillo' como ID
+Línea 66: Reconozco el símbolo '*' como MULT
+Línea 66: Reconozco el símbolo '/' como DIV
+Línea 70: Reconozco el símbolo 'function' como FUNCTION
+Línea 70: Reconozco el símbolo 'contarPares' como ID
+Línea 70: Reconozco el símbolo '(' como LPAREN
+Línea 70: Reconozco el símbolo 'numeros' como ID
+Línea 70: Reconozco el símbolo ':' como COLON
+Línea 70: Reconozco el símbolo 'number' como ID
+Línea 70: Reconozco el símbolo '[' como LBRACKET
+Línea 70: Reconozco el símbolo ']' como RBRACKET
+Línea 70: Reconozco el símbolo ')' como RPAREN
+Línea 70: Reconozco el símbolo ':' como COLON
+Línea 70: Reconozco el símbolo 'number' como ID
+Línea 70: Reconozco el símbolo '{' como LBRACE
+Línea 71: Reconozco el símbolo 'let' como LET
+Línea 71: Reconozco el símbolo 'contador' como ID
+Línea 71: Reconozco el símbolo '=' como ASSIGN
+Línea 71: Reconozco el símbolo '0' como NUMBER
+Línea 71: Reconozco el símbolo ';' como SEMICOLON
+Línea 72: Reconozco el símbolo 'for' como FOR
+Línea 72: Reconozco el símbolo '(' como LPAREN
+Línea 72: Reconozco el símbolo 'let' como LET
+Línea 72: Reconozco el símbolo 'i' como ID
+Línea 72: Reconozco el símbolo '=' como ASSIGN
+Línea 72: Reconozco el símbolo '0' como NUMBER
+Línea 72: Reconozco el símbolo ';' como SEMICOLON
+Línea 72: Reconozco el símbolo 'i' como ID
+Línea 72: Reconozco el símbolo '<' como LT
+Línea 72: Reconozco el símbolo 'numeros' como ID
+Línea 72: Reconozco el símbolo 'length' como ID
+Línea 72: Reconozco el símbolo ';' como SEMICOLON
+Línea 72: Reconozco el símbolo 'i' como ID
+Línea 72: Reconozco el símbolo '++' como INC
+Línea 72: Reconozco el símbolo ')' como RPAREN
+Línea 72: Reconozco el símbolo '{' como LBRACE
+Línea 73: Reconozco el símbolo 'if' como IF
+Línea 73: Reconozco el símbolo '(' como LPAREN
+Línea 73: Reconozco el símbolo 'numeros' como ID
+Línea 73: Reconozco el símbolo '[' como LBRACKET
+Línea 73: Reconozco el símbolo 'i' como ID
+Línea 73: Reconozco el símbolo ']' como RBRACKET
+Línea 73: Reconozco el símbolo '%' como MOD
+Línea 73: Reconozco el símbolo '2' como NUMBER
+Línea 73: Reconozco el símbolo '===' como SEQ
+Línea 73: Reconozco el símbolo '0' como NUMBER
+Línea 73: Reconozco el símbolo ')' como RPAREN
+Línea 73: Reconozco el símbolo '{' como LBRACE
+Línea 74: Reconozco el símbolo 'contador' como ID
+Línea 74: Reconozco el símbolo '++' como INC
+Línea 74: Reconozco el símbolo ';' como SEMICOLON
+Línea 75: Reconozco el símbolo '}' como RBRACE
+Línea 76: Reconozco el símbolo '}' como RBRACE
+Línea 77: Reconozco el símbolo 'return' como RETURN
+Línea 77: Reconozco el símbolo 'contador' como ID
+Línea 77: Reconozco el símbolo ';' como SEMICOLON
+Línea 78: Reconozco el símbolo '}' como RBRACE
+Línea 79: Reconozco el símbolo 'let' como LET
+Línea 79: Reconozco el símbolo 'arreglo' como ID
+Línea 79: Reconozco el símbolo ':' como COLON
+Línea 79: Reconozco el símbolo 'number' como ID
+Línea 79: Reconozco el símbolo '[' como LBRACKET
+Línea 79: Reconozco el símbolo ']' como RBRACKET
+Línea 79: Reconozco el símbolo '=' como ASSIGN
+Línea 79: Reconozco el símbolo '[' como LBRACKET
+Línea 79: Reconozco el símbolo '2' como NUMBER
+Línea 79: Reconozco el símbolo ',' como COMMA
+Línea 79: Reconozco el símbolo '5' como NUMBER
+Línea 79: Reconozco el símbolo ',' como COMMA
+Línea 79: Reconozco el símbolo '8' como NUMBER
+Línea 79: Reconozco el símbolo ',' como COMMA
+Línea 79: Reconozco el símbolo '9' como NUMBER
+Línea 79: Reconozco el símbolo ',' como COMMA
+Línea 79: Reconozco el símbolo '12' como NUMBER
+Línea 79: Reconozco el símbolo ',' como COMMA
+Línea 79: Reconozco el símbolo '15' como NUMBER
+Línea 79: Reconozco el símbolo ']' como RBRACKET
+Línea 79: Reconozco el símbolo ';' como SEMICOLON
+Línea 80: Reconozco el símbolo 'console' como ID
+Línea 80: Reconozco el símbolo 'log' como ID
+Línea 80: Reconozco el símbolo '(' como LPAREN
+Línea 80: Reconozco el símbolo '"Cantidad de números pares: "' como STRING
+Línea 80: Reconozco el símbolo '+' como PLUS
+Línea 80: Reconozco el símbolo 'contarPares' como ID
+Línea 80: Reconozco el símbolo '(' como LPAREN
+Línea 80: Reconozco el símbolo 'arreglo' como ID
+Línea 80: Reconozco el símbolo ')' como RPAREN
+Línea 80: Reconozco el símbolo ')' como RPAREN
+Línea 80: Reconozco el símbolo ';' como SEMICOLON
+Línea 83: Reconozco el símbolo 'function' como FUNCTION
+Línea 83: Reconozco el símbolo 'todosMayoresA' como ID
+Línea 83: Reconozco el símbolo '(' como LPAREN
+Línea 83: Reconozco el símbolo 'm' como ID
+Línea 83: Reconozco el símbolo ':' como COLON
+Línea 83: Reconozco el símbolo 'Map' como ID
+Línea 83: Reconozco el símbolo '<' como LT
+Línea 83: Reconozco el símbolo 'string' como ID
+Línea 83: Reconozco el símbolo ',' como COMMA
+Línea 83: Reconozco el símbolo 'number' como ID
+Línea 83: Reconozco el símbolo '>' como GT
+Línea 83: Reconozco el símbolo ',' como COMMA
+Línea 83: Reconozco el símbolo 'umbral' como ID
+Línea 83: Reconozco el símbolo ':' como COLON
+Línea 83: Reconozco el símbolo 'number' como ID
+Línea 83: Reconozco el símbolo ')' como RPAREN
+Línea 83: Reconozco el símbolo ':' como COLON
+Línea 83: Reconozco el símbolo 'boolean' como ID
+Línea 83: Reconozco el símbolo '{' como LBRACE
+Línea 84: Reconozco el símbolo 'for' como FOR
+Línea 84: Reconozco el símbolo '(' como LPAREN
+Línea 84: Reconozco el símbolo 'let' como LET
+Línea 84: Reconozco el símbolo 'valor' como ID
+Línea 84: Reconozco el símbolo 'of' como ID
+Línea 84: Reconozco el símbolo 'm' como ID
+Línea 84: Reconozco el símbolo 'values' como ID
+Línea 84: Reconozco el símbolo '(' como LPAREN
+Línea 84: Reconozco el símbolo ')' como RPAREN
+Línea 84: Reconozco el símbolo ')' como RPAREN
+Línea 84: Reconozco el símbolo '{' como LBRACE
+Línea 85: Reconozco el símbolo 'if' como IF
+Línea 85: Reconozco el símbolo '(' como LPAREN
+Línea 85: Reconozco el símbolo 'valor' como ID
+Línea 85: Reconozco el símbolo '<=' como LTE
+Línea 85: Reconozco el símbolo 'umbral' como ID
+Línea 85: Reconozco el símbolo ')' como RPAREN
+Línea 85: Reconozco el símbolo '{' como LBRACE
+Línea 86: Reconozco el símbolo 'return' como RETURN
+Línea 86: Reconozco el símbolo 'false' como FALSE
+Línea 86: Reconozco el símbolo ';' como SEMICOLON
+Línea 87: Reconozco el símbolo '}' como RBRACE
+Línea 88: Reconozco el símbolo '}' como RBRACE
+Línea 89: Reconozco el símbolo 'return' como RETURN
+Línea 89: Reconozco el símbolo 'true' como TRUE
+Línea 89: Reconozco el símbolo ';' como SEMICOLON
+Línea 90: Reconozco el símbolo '}' como RBRACE
+Línea 91: Reconozco el símbolo 'let' como LET
+Línea 91: Reconozco el símbolo 'salarios' como ID
+Línea 91: Reconozco el símbolo ':' como COLON
+Línea 91: Reconozco el símbolo 'Map' como ID
+Línea 91: Reconozco el símbolo '<' como LT
+Línea 91: Reconozco el símbolo 'string' como ID
+Línea 91: Reconozco el símbolo ',' como COMMA
+Línea 91: Reconozco el símbolo 'number' como ID
+Línea 91: Reconozco el símbolo '>' como GT
+Línea 91: Reconozco el símbolo '=' como ASSIGN
+Línea 91: Reconozco el símbolo 'new' como ID
+Línea 91: Reconozco el símbolo 'Map' como ID
+Línea 91: Reconozco el símbolo '(' como LPAREN
+Línea 91: Reconozco el símbolo '[' como LBRACKET
+Línea 92: Reconozco el símbolo '[' como LBRACKET
+Línea 92: Reconozco el símbolo '"Luis"' como STRING
+Línea 92: Reconozco el símbolo ',' como COMMA
+Línea 92: Reconozco el símbolo '500' como NUMBER
+Línea 92: Reconozco el símbolo ']' como RBRACKET
+Línea 92: Reconozco el símbolo ',' como COMMA
+Línea 93: Reconozco el símbolo '[' como LBRACKET
+Línea 93: Reconozco el símbolo '"Ana"' como STRING
+Línea 93: Reconozco el símbolo ',' como COMMA
+Línea 93: Reconozco el símbolo '800' como NUMBER
+Línea 93: Reconozco el símbolo ']' como RBRACKET
+Línea 93: Reconozco el símbolo ',' como COMMA
+Línea 94: Reconozco el símbolo '[' como LBRACKET
+Línea 94: Reconozco el símbolo '"Carlos"' como STRING
+Línea 94: Reconozco el símbolo ',' como COMMA
+Línea 94: Reconozco el símbolo '1200' como NUMBER
+Línea 94: Reconozco el símbolo ']' como RBRACKET
+Línea 95: Reconozco el símbolo ']' como RBRACKET
+Línea 95: Reconozco el símbolo ')' como RPAREN
+Línea 95: Reconozco el símbolo ';' como SEMICOLON
+Línea 96: Reconozco el símbolo 'const' como CONST
+Línea 96: Reconozco el símbolo 'umbral' como ID
+Línea 96: Reconozco el símbolo '=' como ASSIGN
+Línea 96: Reconozco el símbolo '400' como NUMBER
+Línea 96: Reconozco el símbolo ';' como SEMICOLON
+Línea 97: Reconozco el símbolo 'if' como IF
+Línea 97: Reconozco el símbolo '(' como LPAREN
+Línea 97: Reconozco el símbolo 'todosMayoresA' como ID
+Línea 97: Reconozco el símbolo '(' como LPAREN
+Línea 97: Reconozco el símbolo 'salarios' como ID
+Línea 97: Reconozco el símbolo ',' como COMMA
+Línea 97: Reconozco el símbolo 'umbral' como ID
+Línea 97: Reconozco el símbolo ')' como RPAREN
+Línea 97: Reconozco el símbolo ')' como RPAREN
+Línea 97: Reconozco el símbolo '{' como LBRACE
+Línea 98: Reconozco el símbolo 'console' como ID
+Línea 98: Reconozco el símbolo 'log' como ID
+Línea 98: Reconozco el símbolo '(' como LPAREN
+Línea 98: Reconozco el símbolo '"Todos los salarios son mayores al umbral."' como STRING
+Línea 98: Reconozco el símbolo ')' como RPAREN
+Línea 98: Reconozco el símbolo ';' como SEMICOLON
+Línea 99: Reconozco el símbolo '}' como RBRACE
+Línea 99: Reconozco el símbolo 'else' como ELSE
+Línea 99: Reconozco el símbolo '{' como LBRACE
+Línea 100: Reconozco el símbolo 'console' como ID
+Línea 100: Reconozco el símbolo 'log' como ID
+Línea 100: Reconozco el símbolo '(' como LPAREN
+Línea 100: Reconozco el símbolo '"Hay salarios menores o iguales al umbral."' como STRING
+Línea 100: Reconozco el símbolo ')' como RPAREN
+Línea 100: Reconozco el símbolo ';' como SEMICOLON
+Línea 101: Reconozco el símbolo '}' como RBRACE
+Línea 105: Reconozco el símbolo '/' como DIV
+Línea 105: Reconozco el símbolo '*' como MULT
+Línea 105: Reconozco el símbolo 'Javier' como ID
+Línea 105: Reconozco el símbolo 'Murillo' como ID
+Línea 105: Reconozco el símbolo '*' como MULT
+Línea 105: Reconozco el símbolo '/' como DIV
+Línea 7: Invalido '.'
+Línea 10: Invalido '.'
+Línea 11: Invalido '.'
+Línea 11: Invalido '.'
+Línea 23: Invalido '.'
+Línea 30: Invalido '.'
+Línea 32: Invalido '.'
+Línea 39: Invalido '.'
+Línea 40: Invalido '.'
+Línea 41: Invalido '.'
+Línea 53: Invalido '.'
+Línea 53: Invalido '.'
+Línea 55: Invalido '!'
+Línea 55: Invalido '.'
+Línea 60: Invalido '.'
+Línea 62: Invalido '.'
+Línea 72: Invalido '.'
+Línea 80: Invalido '.'
+Línea 84: Invalido '.'
+Línea 98: Invalido '.'
+Línea 100: Invalido '.'
