@@ -10,10 +10,10 @@ tokens = [
     # Operadores
     'PLUS', 'MINUS', 'MULT', 'DIV', 'MOD',
     'GT', 'LT', 'GTE', 'LTE', 'EQ', 'SEQ', 'NEQ', 'SNEQ',
-    'ASSIGN', 'INC', 'DEC',
+    'ASSIGN', 'INC', 'DEC', 'NOT', 
 
     # Símbolos
-    'SEMICOLON', 'COLON', 'COMMA',
+    'SEMICOLON', 'COLON', 'COMMA', 'PUNTO' ,
     'LBRACE', 'RBRACE', 'LPAREN', 'RPAREN', 'LBRACKET', 'RBRACKET',
 
     # Identificadores y otros
@@ -37,11 +37,11 @@ t_SNEQ       = r'!=='
 t_ASSIGN     = r'='
 t_INC        = r'\+\+'
 t_DEC        = r'--'
-
+t_PUNTO      = r'\.'
 t_SEMICOLON  = r';'
 t_COLON      = r':'
 t_COMMA      = r','
-
+t_NOT        = r'!'
 t_LBRACE     = r'\{'
 t_RBRACE     = r'\}'
 t_LPAREN     = r'\('

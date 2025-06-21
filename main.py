@@ -17,3 +17,5 @@ with open(ruta3, "r", encoding="utf-8") as f:
 analizar_codigo(codigo1, "Erick")
 analizar_codigo(codigo2, "Melissa")
 analizar_codigo(codigo3, "Josue")
+
+
