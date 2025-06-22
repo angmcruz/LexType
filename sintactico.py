@@ -40,6 +40,8 @@ def p_sentencia(p):
                  | impresion
                  | input_teclado
                  | sentencia_while
+                 | sentencia_for
+                 | sentencia_for_in
                  | funcion
                  | clase'''
    
@@ -85,6 +87,30 @@ def p_expresion(p):
                  | LPAREN expresion RPAREN'''
     p[0] = p[1]
 
+# for for (let i = 0; i < 10; i++) {// cuerpo del for}
+def p_sentencia_for(p):
+    '''sentencia_for : FOR LPAREN inicializacion PUNTOCOMA condicion PUNTOCOMA incremento RPAREN bloque'''
+    print("For detectado")
+
+def p_inicializacion(p):
+    '''inicializacion : LET ID ASSIGN expresion
+                      | asignacion'''
+    # No requiere acción especial aquí, se procesa como una asignación
+
+def p_condicion(p):
+    '''condicion : expresion'''
+    pass
+
+def p_incremento(p):
+    '''incremento : ID PLUSPLUS
+                  | ID MINUSMINUS
+                  | ID ASSIGN expresion'''
+    pass
+
+#for_in for (let item in collection) { // código}
+def p_sentencia_for_in(p):
+    '''sentencia_for_in : FOR LPAREN LET ID IN ID RPAREN bloque'''
+    print(f"For...in detectado: iterando {p[4]} en {p[6]}")
 
 #clase 
 def p_clase(p):
@@ -109,6 +135,26 @@ def p_error(p):
 
     print(mensaje)
     errores.append(mensaje)
+
+#operadores logicos 
+
+def p_expresion_logica(p):
+    '''expresion : expresion AND expresion
+                 | expresion OR expresion'''
+    p[0] = f"({p[1]} {p[2]} {p[3]})"
+
+def p_expresion_negacion(p):
+    '''expresion : NOT expresion'''
+    p[0] = f"(!{p[2]})"
+
+def p_expresion_relacional(p):
+    '''expresion : expresion GT expresion
+                 | expresion LT expresion
+                 | expresion GTE expresion
+                 | expresion LTE expresion
+                 | expresion EQ expresion
+                 | expresion NEQ expresion'''
+    p[0] = f"({p[1]} {p[2]} {p[3]})"
 
 
 # FUNCION

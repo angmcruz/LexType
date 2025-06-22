@@ -18,6 +18,11 @@ tokens = [
 
     # Identificadores y otros
     'ID', 'NUMBER', 'STRING'
+ 
+    # conectores logicos
+    'AND', 'OR', 'NOT'
+
+
 ]
 
 
@@ -48,6 +53,10 @@ t_LPAREN     = r'\('
 t_RPAREN     = r'\)'
 t_LBRACKET   = r'\['
 t_RBRACKET   = r'\]'
+t_AND = r'\&\&'
+t_OR = r'\|\|'
+t_NOT = r'\!'
+
 
 reserved_map = {
     'if': 'IF',
