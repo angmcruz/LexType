@@ -39,37 +39,44 @@ Rule 2     cuerpo -> sentencia
 Rule 3     cuerpo -> sentencia cuerpo
 Rule 4     funcion -> FUNCTION ID LPAREN RPAREN LBRACE RBRACE
 Rule 5     funcion -> FUNCTION ID LPAREN RPAREN LBRACE body RBRACE
-Rule 6     body -> sentence
-Rule 7     body -> sentence body
-Rule 8     asignacion -> LET ID ASSIGN expresion SEMICOLON
-Rule 9     declaracion -> CONST ID ASSIGN expresion SEMICOLON
-Rule 10    impresion -> ID PUNTO ID LPAREN STRING RPAREN SEMICOLON
-Rule 11    input_teclado -> LET ID ASSIGN ID LPAREN STRING RPAREN SEMICOLON
-Rule 12    elementos -> elementos COMMA expresion
-Rule 13    elementos -> expresion
-Rule 14    sentencia_while -> WHILE LPAREN expresion RPAREN bloque
-Rule 15    bloque -> LBRACE cuerpo RBRACE
-Rule 16    expresion -> NUMBER
-Rule 17    expresion -> STRING
-Rule 18    expresion -> ID
-Rule 19    expresion -> LBRACKET elementos RBRACKET
-Rule 20    expresion -> LPAREN expresion RPAREN
-Rule 21    clase -> CLASS ID LBRACE cuerpo_clase RBRACE
-Rule 22    cuerpo_clase -> cuerpo_clase elemento_clase
-Rule 23    cuerpo_clase -> elemento_clase
-Rule 24    elemento_clase -> funcion
-Rule 25    elemento_clase -> asignacion
-Rule 26    elemento_clase -> declaracion
+Rule 6     body -> sentencia
+Rule 7     body -> sentencia body
+Rule 8     sentencia -> asignacion
+Rule 9     sentencia -> declaracion
+Rule 10    sentencia -> impresion
+Rule 11    sentencia -> input_teclado
+Rule 12    sentencia -> sentencia_while
+Rule 13    sentencia -> funcion
+Rule 14    sentencia -> clase
+Rule 15    asignacion -> LET ID ASSIGN expresion SEMICOLON
+Rule 16    declaracion -> CONST ID ASSIGN expresion SEMICOLON
+Rule 17    impresion -> ID PUNTO ID LPAREN STRING RPAREN SEMICOLON
+Rule 18    input_teclado -> LET ID ASSIGN ID LPAREN STRING RPAREN SEMICOLON
+Rule 19    elementos -> elementos COMMA expresion
+Rule 20    elementos -> expresion
+Rule 21    sentencia_while -> WHILE LPAREN expresion RPAREN bloque
+Rule 22    bloque -> LBRACE cuerpo RBRACE
+Rule 23    expresion -> NUMBER
+Rule 24    expresion -> STRING
+Rule 25    expresion -> ID
+Rule 26    expresion -> LBRACKET elementos RBRACKET
+Rule 27    expresion -> LPAREN expresion RPAREN
+Rule 28    clase -> CLASS ID LBRACE cuerpo_clase RBRACE
+Rule 29    cuerpo_clase -> cuerpo_clase elemento_clase
+Rule 30    cuerpo_clase -> elemento_clase
+Rule 31    elemento_clase -> funcion
+Rule 32    elemento_clase -> asignacion
+Rule 33    elemento_clase -> declaracion
 
 Terminals, with rules where they appear
 
-ASSIGN               : 8 9 11
+ASSIGN               : 15 16 18
 BREAK                : 
 CASE                 : 
-CLASS                : 21
+CLASS                : 28
 COLON                : 
-COMMA                : 12
-CONST                : 9
+COMMA                : 19
+CONST                : 16
 CONTINUE             : 
 DEC                  : 
 DIV                  : 
@@ -81,13 +88,13 @@ FOR                  :
 FUNCTION             : 4 5
 GT                   : 
 GTE                  : 
-ID                   : 4 5 8 9 10 10 11 11 18 21
+ID                   : 4 5 15 16 17 17 18 18 25 28
 IF                   : 
 INC                  : 
-LBRACE               : 4 5 15 21
-LBRACKET             : 19
-LET                  : 8 11
-LPAREN               : 4 5 10 11 14 20
+LBRACE               : 4 5 22 28
+LBRACKET             : 26
+LET                  : 15 18
+LPAREN               : 4 5 17 18 21 27
 LT                   : 
 LTE                  : 
 MINUS                : 
@@ -95,39 +102,1003 @@ MOD                  :
 MULT                 : 
 NEQ                  : 
 NOT                  : 
-NUMBER               : 16
+NUMBER               : 23
 PLUS                 : 
-PUNTO                : 10
-RBRACE               : 4 5 15 21
-RBRACKET             : 19
+PUNTO                : 17
+RBRACE               : 4 5 22 28
+RBRACKET             : 26
 RETURN               : 
-RPAREN               : 4 5 10 11 14 20
-SEMICOLON            : 8 9 10 11
+RPAREN               : 4 5 17 18 21 27
+SEMICOLON            : 15 16 17 18
 SEQ                  : 
 SNEQ                 : 
-STRING               : 10 11 17
+STRING               : 17 18 24
 SWITCH               : 
 TRUE                 : 
-WHILE                : 14
+WHILE                : 21
 error                : 
 
 Nonterminals, with rules where they appear
 
-asignacion           : 25
-bloque               : 14
+asignacion           : 8 32
+bloque               : 21
 body                 : 5 7
-clase                : 
-cuerpo               : 1 3 15
-cuerpo_clase         : 21 22
-declaracion          : 26
-elemento_clase       : 22 23
-elementos            : 12 19
-expresion            : 8 9 12 13 14 20
-funcion              : 24
-impresion            : 
-input_teclado        : 
+clase                : 14
+cuerpo               : 1 3 22
+cuerpo_clase         : 28 29
+declaracion          : 9 33
+elemento_clase       : 29 30
+elementos            : 19 26
+expresion            : 15 16 19 20 21 27
+funcion              : 13 31
+impresion            : 10
+input_teclado        : 11
 programa             : 0
-sentence             : 6 7
-sentencia            : 2 3
-sentencia_while      : 
+sentencia            : 2 3 6 7
+sentencia_while      : 12
+
+Parsing method: LALR
+
+state 0
+
+    (0) S' -> . programa
+    (1) programa -> . cuerpo
+    (2) cuerpo -> . sentencia
+    (3) cuerpo -> . sentencia cuerpo
+    (8) sentencia -> . asignacion
+    (9) sentencia -> . declaracion
+    (10) sentencia -> . impresion
+    (11) sentencia -> . input_teclado
+    (12) sentencia -> . sentencia_while
+    (13) sentencia -> . funcion
+    (14) sentencia -> . clase
+    (15) asignacion -> . LET ID ASSIGN expresion SEMICOLON
+    (16) declaracion -> . CONST ID ASSIGN expresion SEMICOLON
+    (17) impresion -> . ID PUNTO ID LPAREN STRING RPAREN SEMICOLON
+    (18) input_teclado -> . LET ID ASSIGN ID LPAREN STRING RPAREN SEMICOLON
+    (21) sentencia_while -> . WHILE LPAREN expresion RPAREN bloque
+    (4) funcion -> . FUNCTION ID LPAREN RPAREN LBRACE RBRACE
+    (5) funcion -> . FUNCTION ID LPAREN RPAREN LBRACE body RBRACE
+    (28) clase -> . CLASS ID LBRACE cuerpo_clase RBRACE
+
+    LET             shift and go to state 11
+    CONST           shift and go to state 13
+    ID              shift and go to state 12
+    WHILE           shift and go to state 14
+    FUNCTION        shift and go to state 15
+    CLASS           shift and go to state 16
+
+    programa                       shift and go to state 1
+    cuerpo                         shift and go to state 2
+    sentencia                      shift and go to state 3
+    asignacion                     shift and go to state 4
+    declaracion                    shift and go to state 5
+    impresion                      shift and go to state 6
+    input_teclado                  shift and go to state 7
+    sentencia_while                shift and go to state 8
+    funcion                        shift and go to state 9
+    clase                          shift and go to state 10
+
+state 1
+
+    (0) S' -> programa .
+
+
+
+state 2
+
+    (1) programa -> cuerpo .
+
+    $end            reduce using rule 1 (programa -> cuerpo .)
+
+
+state 3
+
+    (2) cuerpo -> sentencia .
+    (3) cuerpo -> sentencia . cuerpo
+    (2) cuerpo -> . sentencia
+    (3) cuerpo -> . sentencia cuerpo
+    (8) sentencia -> . asignacion
+    (9) sentencia -> . declaracion
+    (10) sentencia -> . impresion
+    (11) sentencia -> . input_teclado
+    (12) sentencia -> . sentencia_while
+    (13) sentencia -> . funcion
+    (14) sentencia -> . clase
+    (15) asignacion -> . LET ID ASSIGN expresion SEMICOLON
+    (16) declaracion -> . CONST ID ASSIGN expresion SEMICOLON
+    (17) impresion -> . ID PUNTO ID LPAREN STRING RPAREN SEMICOLON
+    (18) input_teclado -> . LET ID ASSIGN ID LPAREN STRING RPAREN SEMICOLON
+    (21) sentencia_while -> . WHILE LPAREN expresion RPAREN bloque
+    (4) funcion -> . FUNCTION ID LPAREN RPAREN LBRACE RBRACE
+    (5) funcion -> . FUNCTION ID LPAREN RPAREN LBRACE body RBRACE
+    (28) clase -> . CLASS ID LBRACE cuerpo_clase RBRACE
+
+    $end            reduce using rule 2 (cuerpo -> sentencia .)
+    RBRACE          reduce using rule 2 (cuerpo -> sentencia .)
+    LET             shift and go to state 11
+    CONST           shift and go to state 13
+    ID              shift and go to state 12
+    WHILE           shift and go to state 14
+    FUNCTION        shift and go to state 15
+    CLASS           shift and go to state 16
+
+    sentencia                      shift and go to state 3
+    cuerpo                         shift and go to state 17
+    asignacion                     shift and go to state 4
+    declaracion                    shift and go to state 5
+    impresion                      shift and go to state 6
+    input_teclado                  shift and go to state 7
+    sentencia_while                shift and go to state 8
+    funcion                        shift and go to state 9
+    clase                          shift and go to state 10
+
+state 4
+
+    (8) sentencia -> asignacion .
+
+    LET             reduce using rule 8 (sentencia -> asignacion .)
+    CONST           reduce using rule 8 (sentencia -> asignacion .)
+    ID              reduce using rule 8 (sentencia -> asignacion .)
+    WHILE           reduce using rule 8 (sentencia -> asignacion .)
+    FUNCTION        reduce using rule 8 (sentencia -> asignacion .)
+    CLASS           reduce using rule 8 (sentencia -> asignacion .)
+    $end            reduce using rule 8 (sentencia -> asignacion .)
+    RBRACE          reduce using rule 8 (sentencia -> asignacion .)
+
+
+state 5
+
+    (9) sentencia -> declaracion .
+
+    LET             reduce using rule 9 (sentencia -> declaracion .)
+    CONST           reduce using rule 9 (sentencia -> declaracion .)
+    ID              reduce using rule 9 (sentencia -> declaracion .)
+    WHILE           reduce using rule 9 (sentencia -> declaracion .)
+    FUNCTION        reduce using rule 9 (sentencia -> declaracion .)
+    CLASS           reduce using rule 9 (sentencia -> declaracion .)
+    $end            reduce using rule 9 (sentencia -> declaracion .)
+    RBRACE          reduce using rule 9 (sentencia -> declaracion .)
+
+
+state 6
+
+    (10) sentencia -> impresion .
+
+    LET             reduce using rule 10 (sentencia -> impresion .)
+    CONST           reduce using rule 10 (sentencia -> impresion .)
+    ID              reduce using rule 10 (sentencia -> impresion .)
+    WHILE           reduce using rule 10 (sentencia -> impresion .)
+    FUNCTION        reduce using rule 10 (sentencia -> impresion .)
+    CLASS           reduce using rule 10 (sentencia -> impresion .)
+    $end            reduce using rule 10 (sentencia -> impresion .)
+    RBRACE          reduce using rule 10 (sentencia -> impresion .)
+
+
+state 7
+
+    (11) sentencia -> input_teclado .
+
+    LET             reduce using rule 11 (sentencia -> input_teclado .)
+    CONST           reduce using rule 11 (sentencia -> input_teclado .)
+    ID              reduce using rule 11 (sentencia -> input_teclado .)
+    WHILE           reduce using rule 11 (sentencia -> input_teclado .)
+    FUNCTION        reduce using rule 11 (sentencia -> input_teclado .)
+    CLASS           reduce using rule 11 (sentencia -> input_teclado .)
+    $end            reduce using rule 11 (sentencia -> input_teclado .)
+    RBRACE          reduce using rule 11 (sentencia -> input_teclado .)
+
+
+state 8
+
+    (12) sentencia -> sentencia_while .
+
+    LET             reduce using rule 12 (sentencia -> sentencia_while .)
+    CONST           reduce using rule 12 (sentencia -> sentencia_while .)
+    ID              reduce using rule 12 (sentencia -> sentencia_while .)
+    WHILE           reduce using rule 12 (sentencia -> sentencia_while .)
+    FUNCTION        reduce using rule 12 (sentencia -> sentencia_while .)
+    CLASS           reduce using rule 12 (sentencia -> sentencia_while .)
+    $end            reduce using rule 12 (sentencia -> sentencia_while .)
+    RBRACE          reduce using rule 12 (sentencia -> sentencia_while .)
+
+
+state 9
+
+    (13) sentencia -> funcion .
+
+    LET             reduce using rule 13 (sentencia -> funcion .)
+    CONST           reduce using rule 13 (sentencia -> funcion .)
+    ID              reduce using rule 13 (sentencia -> funcion .)
+    WHILE           reduce using rule 13 (sentencia -> funcion .)
+    FUNCTION        reduce using rule 13 (sentencia -> funcion .)
+    CLASS           reduce using rule 13 (sentencia -> funcion .)
+    $end            reduce using rule 13 (sentencia -> funcion .)
+    RBRACE          reduce using rule 13 (sentencia -> funcion .)
+
+
+state 10
+
+    (14) sentencia -> clase .
+
+    LET             reduce using rule 14 (sentencia -> clase .)
+    CONST           reduce using rule 14 (sentencia -> clase .)
+    ID              reduce using rule 14 (sentencia -> clase .)
+    WHILE           reduce using rule 14 (sentencia -> clase .)
+    FUNCTION        reduce using rule 14 (sentencia -> clase .)
+    CLASS           reduce using rule 14 (sentencia -> clase .)
+    $end            reduce using rule 14 (sentencia -> clase .)
+    RBRACE          reduce using rule 14 (sentencia -> clase .)
+
+
+state 11
+
+    (15) asignacion -> LET . ID ASSIGN expresion SEMICOLON
+    (18) input_teclado -> LET . ID ASSIGN ID LPAREN STRING RPAREN SEMICOLON
+
+    ID              shift and go to state 18
+
+
+state 12
+
+    (17) impresion -> ID . PUNTO ID LPAREN STRING RPAREN SEMICOLON
+
+    PUNTO           shift and go to state 19
+
+
+state 13
+
+    (16) declaracion -> CONST . ID ASSIGN expresion SEMICOLON
+
+    ID              shift and go to state 20
+
+
+state 14
+
+    (21) sentencia_while -> WHILE . LPAREN expresion RPAREN bloque
+
+    LPAREN          shift and go to state 21
+
+
+state 15
+
+    (4) funcion -> FUNCTION . ID LPAREN RPAREN LBRACE RBRACE
+    (5) funcion -> FUNCTION . ID LPAREN RPAREN LBRACE body RBRACE
+
+    ID              shift and go to state 22
+
+
+state 16
+
+    (28) clase -> CLASS . ID LBRACE cuerpo_clase RBRACE
+
+    ID              shift and go to state 23
+
+
+state 17
+
+    (3) cuerpo -> sentencia cuerpo .
+
+    $end            reduce using rule 3 (cuerpo -> sentencia cuerpo .)
+    RBRACE          reduce using rule 3 (cuerpo -> sentencia cuerpo .)
+
+
+state 18
+
+    (15) asignacion -> LET ID . ASSIGN expresion SEMICOLON
+    (18) input_teclado -> LET ID . ASSIGN ID LPAREN STRING RPAREN SEMICOLON
+
+    ASSIGN          shift and go to state 24
+
+
+state 19
+
+    (17) impresion -> ID PUNTO . ID LPAREN STRING RPAREN SEMICOLON
+
+    ID              shift and go to state 25
+
+
+state 20
+
+    (16) declaracion -> CONST ID . ASSIGN expresion SEMICOLON
+
+    ASSIGN          shift and go to state 26
+
+
+state 21
+
+    (21) sentencia_while -> WHILE LPAREN . expresion RPAREN bloque
+    (23) expresion -> . NUMBER
+    (24) expresion -> . STRING
+    (25) expresion -> . ID
+    (26) expresion -> . LBRACKET elementos RBRACKET
+    (27) expresion -> . LPAREN expresion RPAREN
+
+    NUMBER          shift and go to state 29
+    STRING          shift and go to state 30
+    ID              shift and go to state 31
+    LBRACKET        shift and go to state 32
+    LPAREN          shift and go to state 27
+
+    expresion                      shift and go to state 28
+
+state 22
+
+    (4) funcion -> FUNCTION ID . LPAREN RPAREN LBRACE RBRACE
+    (5) funcion -> FUNCTION ID . LPAREN RPAREN LBRACE body RBRACE
+
+    LPAREN          shift and go to state 33
+
+
+state 23
+
+    (28) clase -> CLASS ID . LBRACE cuerpo_clase RBRACE
+
+    LBRACE          shift and go to state 34
+
+
+state 24
+
+    (15) asignacion -> LET ID ASSIGN . expresion SEMICOLON
+    (18) input_teclado -> LET ID ASSIGN . ID LPAREN STRING RPAREN SEMICOLON
+    (23) expresion -> . NUMBER
+    (24) expresion -> . STRING
+    (25) expresion -> . ID
+    (26) expresion -> . LBRACKET elementos RBRACKET
+    (27) expresion -> . LPAREN expresion RPAREN
+
+    ID              shift and go to state 35
+    NUMBER          shift and go to state 29
+    STRING          shift and go to state 30
+    LBRACKET        shift and go to state 32
+    LPAREN          shift and go to state 27
+
+    expresion                      shift and go to state 36
+
+state 25
+
+    (17) impresion -> ID PUNTO ID . LPAREN STRING RPAREN SEMICOLON
+
+    LPAREN          shift and go to state 37
+
+
+state 26
+
+    (16) declaracion -> CONST ID ASSIGN . expresion SEMICOLON
+    (23) expresion -> . NUMBER
+    (24) expresion -> . STRING
+    (25) expresion -> . ID
+    (26) expresion -> . LBRACKET elementos RBRACKET
+    (27) expresion -> . LPAREN expresion RPAREN
+
+    NUMBER          shift and go to state 29
+    STRING          shift and go to state 30
+    ID              shift and go to state 31
+    LBRACKET        shift and go to state 32
+    LPAREN          shift and go to state 27
+
+    expresion                      shift and go to state 38
+
+state 27
+
+    (27) expresion -> LPAREN . expresion RPAREN
+    (23) expresion -> . NUMBER
+    (24) expresion -> . STRING
+    (25) expresion -> . ID
+    (26) expresion -> . LBRACKET elementos RBRACKET
+    (27) expresion -> . LPAREN expresion RPAREN
+
+    NUMBER          shift and go to state 29
+    STRING          shift and go to state 30
+    ID              shift and go to state 31
+    LBRACKET        shift and go to state 32
+    LPAREN          shift and go to state 27
+
+    expresion                      shift and go to state 39
+
+state 28
+
+    (21) sentencia_while -> WHILE LPAREN expresion . RPAREN bloque
+
+    RPAREN          shift and go to state 40
+
+
+state 29
+
+    (23) expresion -> NUMBER .
+
+    RPAREN          reduce using rule 23 (expresion -> NUMBER .)
+    SEMICOLON       reduce using rule 23 (expresion -> NUMBER .)
+    RBRACKET        reduce using rule 23 (expresion -> NUMBER .)
+    COMMA           reduce using rule 23 (expresion -> NUMBER .)
+
+
+state 30
+
+    (24) expresion -> STRING .
+
+    RPAREN          reduce using rule 24 (expresion -> STRING .)
+    SEMICOLON       reduce using rule 24 (expresion -> STRING .)
+    RBRACKET        reduce using rule 24 (expresion -> STRING .)
+    COMMA           reduce using rule 24 (expresion -> STRING .)
+
+
+state 31
+
+    (25) expresion -> ID .
+
+    RPAREN          reduce using rule 25 (expresion -> ID .)
+    SEMICOLON       reduce using rule 25 (expresion -> ID .)
+    RBRACKET        reduce using rule 25 (expresion -> ID .)
+    COMMA           reduce using rule 25 (expresion -> ID .)
+
+
+state 32
+
+    (26) expresion -> LBRACKET . elementos RBRACKET
+    (19) elementos -> . elementos COMMA expresion
+    (20) elementos -> . expresion
+    (23) expresion -> . NUMBER
+    (24) expresion -> . STRING
+    (25) expresion -> . ID
+    (26) expresion -> . LBRACKET elementos RBRACKET
+    (27) expresion -> . LPAREN expresion RPAREN
+
+    NUMBER          shift and go to state 29
+    STRING          shift and go to state 30
+    ID              shift and go to state 31
+    LBRACKET        shift and go to state 32
+    LPAREN          shift and go to state 27
+
+    elementos                      shift and go to state 41
+    expresion                      shift and go to state 42
+
+state 33
+
+    (4) funcion -> FUNCTION ID LPAREN . RPAREN LBRACE RBRACE
+    (5) funcion -> FUNCTION ID LPAREN . RPAREN LBRACE body RBRACE
+
+    RPAREN          shift and go to state 43
+
+
+state 34
+
+    (28) clase -> CLASS ID LBRACE . cuerpo_clase RBRACE
+    (29) cuerpo_clase -> . cuerpo_clase elemento_clase
+    (30) cuerpo_clase -> . elemento_clase
+    (31) elemento_clase -> . funcion
+    (32) elemento_clase -> . asignacion
+    (33) elemento_clase -> . declaracion
+    (4) funcion -> . FUNCTION ID LPAREN RPAREN LBRACE RBRACE
+    (5) funcion -> . FUNCTION ID LPAREN RPAREN LBRACE body RBRACE
+    (15) asignacion -> . LET ID ASSIGN expresion SEMICOLON
+    (16) declaracion -> . CONST ID ASSIGN expresion SEMICOLON
+
+    FUNCTION        shift and go to state 15
+    LET             shift and go to state 49
+    CONST           shift and go to state 13
+
+    cuerpo_clase                   shift and go to state 44
+    elemento_clase                 shift and go to state 45
+    funcion                        shift and go to state 46
+    asignacion                     shift and go to state 47
+    declaracion                    shift and go to state 48
+
+state 35
+
+    (18) input_teclado -> LET ID ASSIGN ID . LPAREN STRING RPAREN SEMICOLON
+    (25) expresion -> ID .
+
+    LPAREN          shift and go to state 50
+    SEMICOLON       reduce using rule 25 (expresion -> ID .)
+
+
+state 36
+
+    (15) asignacion -> LET ID ASSIGN expresion . SEMICOLON
+
+    SEMICOLON       shift and go to state 51
+
+
+state 37
+
+    (17) impresion -> ID PUNTO ID LPAREN . STRING RPAREN SEMICOLON
+
+    STRING          shift and go to state 52
+
+
+state 38
+
+    (16) declaracion -> CONST ID ASSIGN expresion . SEMICOLON
+
+    SEMICOLON       shift and go to state 53
+
+
+state 39
+
+    (27) expresion -> LPAREN expresion . RPAREN
+
+    RPAREN          shift and go to state 54
+
+
+state 40
+
+    (21) sentencia_while -> WHILE LPAREN expresion RPAREN . bloque
+    (22) bloque -> . LBRACE cuerpo RBRACE
+
+    LBRACE          shift and go to state 56
+
+    bloque                         shift and go to state 55
+
+state 41
+
+    (26) expresion -> LBRACKET elementos . RBRACKET
+    (19) elementos -> elementos . COMMA expresion
+
+    RBRACKET        shift and go to state 57
+    COMMA           shift and go to state 58
+
+
+state 42
+
+    (20) elementos -> expresion .
+
+    RBRACKET        reduce using rule 20 (elementos -> expresion .)
+    COMMA           reduce using rule 20 (elementos -> expresion .)
+
+
+state 43
+
+    (4) funcion -> FUNCTION ID LPAREN RPAREN . LBRACE RBRACE
+    (5) funcion -> FUNCTION ID LPAREN RPAREN . LBRACE body RBRACE
+
+    LBRACE          shift and go to state 59
+
+
+state 44
+
+    (28) clase -> CLASS ID LBRACE cuerpo_clase . RBRACE
+    (29) cuerpo_clase -> cuerpo_clase . elemento_clase
+    (31) elemento_clase -> . funcion
+    (32) elemento_clase -> . asignacion
+    (33) elemento_clase -> . declaracion
+    (4) funcion -> . FUNCTION ID LPAREN RPAREN LBRACE RBRACE
+    (5) funcion -> . FUNCTION ID LPAREN RPAREN LBRACE body RBRACE
+    (15) asignacion -> . LET ID ASSIGN expresion SEMICOLON
+    (16) declaracion -> . CONST ID ASSIGN expresion SEMICOLON
+
+    RBRACE          shift and go to state 60
+    FUNCTION        shift and go to state 15
+    LET             shift and go to state 49
+    CONST           shift and go to state 13
+
+    elemento_clase                 shift and go to state 61
+    funcion                        shift and go to state 46
+    asignacion                     shift and go to state 47
+    declaracion                    shift and go to state 48
+
+state 45
+
+    (30) cuerpo_clase -> elemento_clase .
+
+    RBRACE          reduce using rule 30 (cuerpo_clase -> elemento_clase .)
+    FUNCTION        reduce using rule 30 (cuerpo_clase -> elemento_clase .)
+    LET             reduce using rule 30 (cuerpo_clase -> elemento_clase .)
+    CONST           reduce using rule 30 (cuerpo_clase -> elemento_clase .)
+
+
+state 46
+
+    (31) elemento_clase -> funcion .
+
+    RBRACE          reduce using rule 31 (elemento_clase -> funcion .)
+    FUNCTION        reduce using rule 31 (elemento_clase -> funcion .)
+    LET             reduce using rule 31 (elemento_clase -> funcion .)
+    CONST           reduce using rule 31 (elemento_clase -> funcion .)
+
+
+state 47
+
+    (32) elemento_clase -> asignacion .
+
+    RBRACE          reduce using rule 32 (elemento_clase -> asignacion .)
+    FUNCTION        reduce using rule 32 (elemento_clase -> asignacion .)
+    LET             reduce using rule 32 (elemento_clase -> asignacion .)
+    CONST           reduce using rule 32 (elemento_clase -> asignacion .)
+
+
+state 48
+
+    (33) elemento_clase -> declaracion .
+
+    RBRACE          reduce using rule 33 (elemento_clase -> declaracion .)
+    FUNCTION        reduce using rule 33 (elemento_clase -> declaracion .)
+    LET             reduce using rule 33 (elemento_clase -> declaracion .)
+    CONST           reduce using rule 33 (elemento_clase -> declaracion .)
+
+
+state 49
+
+    (15) asignacion -> LET . ID ASSIGN expresion SEMICOLON
+
+    ID              shift and go to state 62
+
+
+state 50
+
+    (18) input_teclado -> LET ID ASSIGN ID LPAREN . STRING RPAREN SEMICOLON
+
+    STRING          shift and go to state 63
+
+
+state 51
+
+    (15) asignacion -> LET ID ASSIGN expresion SEMICOLON .
+
+    LET             reduce using rule 15 (asignacion -> LET ID ASSIGN expresion SEMICOLON .)
+    CONST           reduce using rule 15 (asignacion -> LET ID ASSIGN expresion SEMICOLON .)
+    ID              reduce using rule 15 (asignacion -> LET ID ASSIGN expresion SEMICOLON .)
+    WHILE           reduce using rule 15 (asignacion -> LET ID ASSIGN expresion SEMICOLON .)
+    FUNCTION        reduce using rule 15 (asignacion -> LET ID ASSIGN expresion SEMICOLON .)
+    CLASS           reduce using rule 15 (asignacion -> LET ID ASSIGN expresion SEMICOLON .)
+    $end            reduce using rule 15 (asignacion -> LET ID ASSIGN expresion SEMICOLON .)
+    RBRACE          reduce using rule 15 (asignacion -> LET ID ASSIGN expresion SEMICOLON .)
+
+
+state 52
+
+    (17) impresion -> ID PUNTO ID LPAREN STRING . RPAREN SEMICOLON
+
+    RPAREN          shift and go to state 64
+
+
+state 53
+
+    (16) declaracion -> CONST ID ASSIGN expresion SEMICOLON .
+
+    LET             reduce using rule 16 (declaracion -> CONST ID ASSIGN expresion SEMICOLON .)
+    CONST           reduce using rule 16 (declaracion -> CONST ID ASSIGN expresion SEMICOLON .)
+    ID              reduce using rule 16 (declaracion -> CONST ID ASSIGN expresion SEMICOLON .)
+    WHILE           reduce using rule 16 (declaracion -> CONST ID ASSIGN expresion SEMICOLON .)
+    FUNCTION        reduce using rule 16 (declaracion -> CONST ID ASSIGN expresion SEMICOLON .)
+    CLASS           reduce using rule 16 (declaracion -> CONST ID ASSIGN expresion SEMICOLON .)
+    $end            reduce using rule 16 (declaracion -> CONST ID ASSIGN expresion SEMICOLON .)
+    RBRACE          reduce using rule 16 (declaracion -> CONST ID ASSIGN expresion SEMICOLON .)
+
+
+state 54
+
+    (27) expresion -> LPAREN expresion RPAREN .
+
+    RPAREN          reduce using rule 27 (expresion -> LPAREN expresion RPAREN .)
+    SEMICOLON       reduce using rule 27 (expresion -> LPAREN expresion RPAREN .)
+    RBRACKET        reduce using rule 27 (expresion -> LPAREN expresion RPAREN .)
+    COMMA           reduce using rule 27 (expresion -> LPAREN expresion RPAREN .)
+
+
+state 55
+
+    (21) sentencia_while -> WHILE LPAREN expresion RPAREN bloque .
+
+    LET             reduce using rule 21 (sentencia_while -> WHILE LPAREN expresion RPAREN bloque .)
+    CONST           reduce using rule 21 (sentencia_while -> WHILE LPAREN expresion RPAREN bloque .)
+    ID              reduce using rule 21 (sentencia_while -> WHILE LPAREN expresion RPAREN bloque .)
+    WHILE           reduce using rule 21 (sentencia_while -> WHILE LPAREN expresion RPAREN bloque .)
+    FUNCTION        reduce using rule 21 (sentencia_while -> WHILE LPAREN expresion RPAREN bloque .)
+    CLASS           reduce using rule 21 (sentencia_while -> WHILE LPAREN expresion RPAREN bloque .)
+    $end            reduce using rule 21 (sentencia_while -> WHILE LPAREN expresion RPAREN bloque .)
+    RBRACE          reduce using rule 21 (sentencia_while -> WHILE LPAREN expresion RPAREN bloque .)
+
+
+state 56
+
+    (22) bloque -> LBRACE . cuerpo RBRACE
+    (2) cuerpo -> . sentencia
+    (3) cuerpo -> . sentencia cuerpo
+    (8) sentencia -> . asignacion
+    (9) sentencia -> . declaracion
+    (10) sentencia -> . impresion
+    (11) sentencia -> . input_teclado
+    (12) sentencia -> . sentencia_while
+    (13) sentencia -> . funcion
+    (14) sentencia -> . clase
+    (15) asignacion -> . LET ID ASSIGN expresion SEMICOLON
+    (16) declaracion -> . CONST ID ASSIGN expresion SEMICOLON
+    (17) impresion -> . ID PUNTO ID LPAREN STRING RPAREN SEMICOLON
+    (18) input_teclado -> . LET ID ASSIGN ID LPAREN STRING RPAREN SEMICOLON
+    (21) sentencia_while -> . WHILE LPAREN expresion RPAREN bloque
+    (4) funcion -> . FUNCTION ID LPAREN RPAREN LBRACE RBRACE
+    (5) funcion -> . FUNCTION ID LPAREN RPAREN LBRACE body RBRACE
+    (28) clase -> . CLASS ID LBRACE cuerpo_clase RBRACE
+
+    LET             shift and go to state 11
+    CONST           shift and go to state 13
+    ID              shift and go to state 12
+    WHILE           shift and go to state 14
+    FUNCTION        shift and go to state 15
+    CLASS           shift and go to state 16
+
+    cuerpo                         shift and go to state 65
+    sentencia                      shift and go to state 3
+    asignacion                     shift and go to state 4
+    declaracion                    shift and go to state 5
+    impresion                      shift and go to state 6
+    input_teclado                  shift and go to state 7
+    sentencia_while                shift and go to state 8
+    funcion                        shift and go to state 9
+    clase                          shift and go to state 10
+
+state 57
+
+    (26) expresion -> LBRACKET elementos RBRACKET .
+
+    RPAREN          reduce using rule 26 (expresion -> LBRACKET elementos RBRACKET .)
+    SEMICOLON       reduce using rule 26 (expresion -> LBRACKET elementos RBRACKET .)
+    RBRACKET        reduce using rule 26 (expresion -> LBRACKET elementos RBRACKET .)
+    COMMA           reduce using rule 26 (expresion -> LBRACKET elementos RBRACKET .)
+
+
+state 58
+
+    (19) elementos -> elementos COMMA . expresion
+    (23) expresion -> . NUMBER
+    (24) expresion -> . STRING
+    (25) expresion -> . ID
+    (26) expresion -> . LBRACKET elementos RBRACKET
+    (27) expresion -> . LPAREN expresion RPAREN
+
+    NUMBER          shift and go to state 29
+    STRING          shift and go to state 30
+    ID              shift and go to state 31
+    LBRACKET        shift and go to state 32
+    LPAREN          shift and go to state 27
+
+    expresion                      shift and go to state 66
+
+state 59
+
+    (4) funcion -> FUNCTION ID LPAREN RPAREN LBRACE . RBRACE
+    (5) funcion -> FUNCTION ID LPAREN RPAREN LBRACE . body RBRACE
+    (6) body -> . sentencia
+    (7) body -> . sentencia body
+    (8) sentencia -> . asignacion
+    (9) sentencia -> . declaracion
+    (10) sentencia -> . impresion
+    (11) sentencia -> . input_teclado
+    (12) sentencia -> . sentencia_while
+    (13) sentencia -> . funcion
+    (14) sentencia -> . clase
+    (15) asignacion -> . LET ID ASSIGN expresion SEMICOLON
+    (16) declaracion -> . CONST ID ASSIGN expresion SEMICOLON
+    (17) impresion -> . ID PUNTO ID LPAREN STRING RPAREN SEMICOLON
+    (18) input_teclado -> . LET ID ASSIGN ID LPAREN STRING RPAREN SEMICOLON
+    (21) sentencia_while -> . WHILE LPAREN expresion RPAREN bloque
+    (4) funcion -> . FUNCTION ID LPAREN RPAREN LBRACE RBRACE
+    (5) funcion -> . FUNCTION ID LPAREN RPAREN LBRACE body RBRACE
+    (28) clase -> . CLASS ID LBRACE cuerpo_clase RBRACE
+
+    RBRACE          shift and go to state 67
+    LET             shift and go to state 11
+    CONST           shift and go to state 13
+    ID              shift and go to state 12
+    WHILE           shift and go to state 14
+    FUNCTION        shift and go to state 15
+    CLASS           shift and go to state 16
+
+    body                           shift and go to state 68
+    sentencia                      shift and go to state 69
+    asignacion                     shift and go to state 4
+    declaracion                    shift and go to state 5
+    impresion                      shift and go to state 6
+    input_teclado                  shift and go to state 7
+    sentencia_while                shift and go to state 8
+    funcion                        shift and go to state 9
+    clase                          shift and go to state 10
+
+state 60
+
+    (28) clase -> CLASS ID LBRACE cuerpo_clase RBRACE .
+
+    LET             reduce using rule 28 (clase -> CLASS ID LBRACE cuerpo_clase RBRACE .)
+    CONST           reduce using rule 28 (clase -> CLASS ID LBRACE cuerpo_clase RBRACE .)
+    ID              reduce using rule 28 (clase -> CLASS ID LBRACE cuerpo_clase RBRACE .)
+    WHILE           reduce using rule 28 (clase -> CLASS ID LBRACE cuerpo_clase RBRACE .)
+    FUNCTION        reduce using rule 28 (clase -> CLASS ID LBRACE cuerpo_clase RBRACE .)
+    CLASS           reduce using rule 28 (clase -> CLASS ID LBRACE cuerpo_clase RBRACE .)
+    $end            reduce using rule 28 (clase -> CLASS ID LBRACE cuerpo_clase RBRACE .)
+    RBRACE          reduce using rule 28 (clase -> CLASS ID LBRACE cuerpo_clase RBRACE .)
+
+
+state 61
+
+    (29) cuerpo_clase -> cuerpo_clase elemento_clase .
+
+    RBRACE          reduce using rule 29 (cuerpo_clase -> cuerpo_clase elemento_clase .)
+    FUNCTION        reduce using rule 29 (cuerpo_clase -> cuerpo_clase elemento_clase .)
+    LET             reduce using rule 29 (cuerpo_clase -> cuerpo_clase elemento_clase .)
+    CONST           reduce using rule 29 (cuerpo_clase -> cuerpo_clase elemento_clase .)
+
+
+state 62
+
+    (15) asignacion -> LET ID . ASSIGN expresion SEMICOLON
+
+    ASSIGN          shift and go to state 70
+
+
+state 63
+
+    (18) input_teclado -> LET ID ASSIGN ID LPAREN STRING . RPAREN SEMICOLON
+
+    RPAREN          shift and go to state 71
+
+
+state 64
+
+    (17) impresion -> ID PUNTO ID LPAREN STRING RPAREN . SEMICOLON
+
+    SEMICOLON       shift and go to state 72
+
+
+state 65
+
+    (22) bloque -> LBRACE cuerpo . RBRACE
+
+    RBRACE          shift and go to state 73
+
+
+state 66
+
+    (19) elementos -> elementos COMMA expresion .
+
+    RBRACKET        reduce using rule 19 (elementos -> elementos COMMA expresion .)
+    COMMA           reduce using rule 19 (elementos -> elementos COMMA expresion .)
+
+
+state 67
+
+    (4) funcion -> FUNCTION ID LPAREN RPAREN LBRACE RBRACE .
+
+    LET             reduce using rule 4 (funcion -> FUNCTION ID LPAREN RPAREN LBRACE RBRACE .)
+    CONST           reduce using rule 4 (funcion -> FUNCTION ID LPAREN RPAREN LBRACE RBRACE .)
+    ID              reduce using rule 4 (funcion -> FUNCTION ID LPAREN RPAREN LBRACE RBRACE .)
+    WHILE           reduce using rule 4 (funcion -> FUNCTION ID LPAREN RPAREN LBRACE RBRACE .)
+    FUNCTION        reduce using rule 4 (funcion -> FUNCTION ID LPAREN RPAREN LBRACE RBRACE .)
+    CLASS           reduce using rule 4 (funcion -> FUNCTION ID LPAREN RPAREN LBRACE RBRACE .)
+    $end            reduce using rule 4 (funcion -> FUNCTION ID LPAREN RPAREN LBRACE RBRACE .)
+    RBRACE          reduce using rule 4 (funcion -> FUNCTION ID LPAREN RPAREN LBRACE RBRACE .)
+
+
+state 68
+
+    (5) funcion -> FUNCTION ID LPAREN RPAREN LBRACE body . RBRACE
+
+    RBRACE          shift and go to state 74
+
+
+state 69
+
+    (6) body -> sentencia .
+    (7) body -> sentencia . body
+    (6) body -> . sentencia
+    (7) body -> . sentencia body
+    (8) sentencia -> . asignacion
+    (9) sentencia -> . declaracion
+    (10) sentencia -> . impresion
+    (11) sentencia -> . input_teclado
+    (12) sentencia -> . sentencia_while
+    (13) sentencia -> . funcion
+    (14) sentencia -> . clase
+    (15) asignacion -> . LET ID ASSIGN expresion SEMICOLON
+    (16) declaracion -> . CONST ID ASSIGN expresion SEMICOLON
+    (17) impresion -> . ID PUNTO ID LPAREN STRING RPAREN SEMICOLON
+    (18) input_teclado -> . LET ID ASSIGN ID LPAREN STRING RPAREN SEMICOLON
+    (21) sentencia_while -> . WHILE LPAREN expresion RPAREN bloque
+    (4) funcion -> . FUNCTION ID LPAREN RPAREN LBRACE RBRACE
+    (5) funcion -> . FUNCTION ID LPAREN RPAREN LBRACE body RBRACE
+    (28) clase -> . CLASS ID LBRACE cuerpo_clase RBRACE
+
+    RBRACE          reduce using rule 6 (body -> sentencia .)
+    LET             shift and go to state 11
+    CONST           shift and go to state 13
+    ID              shift and go to state 12
+    WHILE           shift and go to state 14
+    FUNCTION        shift and go to state 15
+    CLASS           shift and go to state 16
+
+    sentencia                      shift and go to state 69
+    body                           shift and go to state 75
+    asignacion                     shift and go to state 4
+    declaracion                    shift and go to state 5
+    impresion                      shift and go to state 6
+    input_teclado                  shift and go to state 7
+    sentencia_while                shift and go to state 8
+    funcion                        shift and go to state 9
+    clase                          shift and go to state 10
+
+state 70
+
+    (15) asignacion -> LET ID ASSIGN . expresion SEMICOLON
+    (23) expresion -> . NUMBER
+    (24) expresion -> . STRING
+    (25) expresion -> . ID
+    (26) expresion -> . LBRACKET elementos RBRACKET
+    (27) expresion -> . LPAREN expresion RPAREN
+
+    NUMBER          shift and go to state 29
+    STRING          shift and go to state 30
+    ID              shift and go to state 31
+    LBRACKET        shift and go to state 32
+    LPAREN          shift and go to state 27
+
+    expresion                      shift and go to state 36
+
+state 71
+
+    (18) input_teclado -> LET ID ASSIGN ID LPAREN STRING RPAREN . SEMICOLON
+
+    SEMICOLON       shift and go to state 76
+
+
+state 72
+
+    (17) impresion -> ID PUNTO ID LPAREN STRING RPAREN SEMICOLON .
+
+    LET             reduce using rule 17 (impresion -> ID PUNTO ID LPAREN STRING RPAREN SEMICOLON .)
+    CONST           reduce using rule 17 (impresion -> ID PUNTO ID LPAREN STRING RPAREN SEMICOLON .)
+    ID              reduce using rule 17 (impresion -> ID PUNTO ID LPAREN STRING RPAREN SEMICOLON .)
+    WHILE           reduce using rule 17 (impresion -> ID PUNTO ID LPAREN STRING RPAREN SEMICOLON .)
+    FUNCTION        reduce using rule 17 (impresion -> ID PUNTO ID LPAREN STRING RPAREN SEMICOLON .)
+    CLASS           reduce using rule 17 (impresion -> ID PUNTO ID LPAREN STRING RPAREN SEMICOLON .)
+    $end            reduce using rule 17 (impresion -> ID PUNTO ID LPAREN STRING RPAREN SEMICOLON .)
+    RBRACE          reduce using rule 17 (impresion -> ID PUNTO ID LPAREN STRING RPAREN SEMICOLON .)
+
+
+state 73
+
+    (22) bloque -> LBRACE cuerpo RBRACE .
+
+    LET             reduce using rule 22 (bloque -> LBRACE cuerpo RBRACE .)
+    CONST           reduce using rule 22 (bloque -> LBRACE cuerpo RBRACE .)
+    ID              reduce using rule 22 (bloque -> LBRACE cuerpo RBRACE .)
+    WHILE           reduce using rule 22 (bloque -> LBRACE cuerpo RBRACE .)
+    FUNCTION        reduce using rule 22 (bloque -> LBRACE cuerpo RBRACE .)
+    CLASS           reduce using rule 22 (bloque -> LBRACE cuerpo RBRACE .)
+    $end            reduce using rule 22 (bloque -> LBRACE cuerpo RBRACE .)
+    RBRACE          reduce using rule 22 (bloque -> LBRACE cuerpo RBRACE .)
+
+
+state 74
+
+    (5) funcion -> FUNCTION ID LPAREN RPAREN LBRACE body RBRACE .
+
+    LET             reduce using rule 5 (funcion -> FUNCTION ID LPAREN RPAREN LBRACE body RBRACE .)
+    CONST           reduce using rule 5 (funcion -> FUNCTION ID LPAREN RPAREN LBRACE body RBRACE .)
+    ID              reduce using rule 5 (funcion -> FUNCTION ID LPAREN RPAREN LBRACE body RBRACE .)
+    WHILE           reduce using rule 5 (funcion -> FUNCTION ID LPAREN RPAREN LBRACE body RBRACE .)
+    FUNCTION        reduce using rule 5 (funcion -> FUNCTION ID LPAREN RPAREN LBRACE body RBRACE .)
+    CLASS           reduce using rule 5 (funcion -> FUNCTION ID LPAREN RPAREN LBRACE body RBRACE .)
+    $end            reduce using rule 5 (funcion -> FUNCTION ID LPAREN RPAREN LBRACE body RBRACE .)
+    RBRACE          reduce using rule 5 (funcion -> FUNCTION ID LPAREN RPAREN LBRACE body RBRACE .)
+
+
+state 75
+
+    (7) body -> sentencia body .
+
+    RBRACE          reduce using rule 7 (body -> sentencia body .)
+
+
+state 76
+
+    (18) input_teclado -> LET ID ASSIGN ID LPAREN STRING RPAREN SEMICOLON .
+
+    LET             reduce using rule 18 (input_teclado -> LET ID ASSIGN ID LPAREN STRING RPAREN SEMICOLON .)
+    CONST           reduce using rule 18 (input_teclado -> LET ID ASSIGN ID LPAREN STRING RPAREN SEMICOLON .)
+    ID              reduce using rule 18 (input_teclado -> LET ID ASSIGN ID LPAREN STRING RPAREN SEMICOLON .)
+    WHILE           reduce using rule 18 (input_teclado -> LET ID ASSIGN ID LPAREN STRING RPAREN SEMICOLON .)
+    FUNCTION        reduce using rule 18 (input_teclado -> LET ID ASSIGN ID LPAREN STRING RPAREN SEMICOLON .)
+    CLASS           reduce using rule 18 (input_teclado -> LET ID ASSIGN ID LPAREN STRING RPAREN SEMICOLON .)
+    $end            reduce using rule 18 (input_teclado -> LET ID ASSIGN ID LPAREN STRING RPAREN SEMICOLON .)
+    RBRACE          reduce using rule 18 (input_teclado -> LET ID ASSIGN ID LPAREN STRING RPAREN SEMICOLON .)
 

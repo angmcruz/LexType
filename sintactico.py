@@ -14,13 +14,13 @@ from tokens import tokens
 
 def p_programa(p):
     '''programa : cuerpo'''
-    pass
+    
 
 # Cuerpo del programa (una o más sentencias)
 def p_cuerpo(p):
     '''cuerpo : sentencia
               | sentencia cuerpo'''
-    pass
+    
 # function prueba() {
 #   let x = 5;          }
 def p_funcion(p):
@@ -31,10 +31,18 @@ def p_funcion(p):
 
 # let x = 5;
 def p_body(p):
-    '''body : sentence
-            | sentence body'''
+    '''body : sentencia
+            | sentencia body'''
     
-
+def p_sentencia(p):
+    '''sentencia : asignacion
+                 | declaracion
+                 | impresion
+                 | input_teclado
+                 | sentencia_while
+                 | funcion
+                 | clase'''
+   
 
 # variable
 def p_asignacion(p):
@@ -54,13 +62,6 @@ def p_input_teclado(p):
 
 
 # array
-
-def p_elementos(p):
-    '''elementos : elementos COMMA expresion
-                 | expresion'''
-    pass
-    
-
 def p_elementos(p):
     '''elementos : elementos COMMA expresion
                  | expresion'''
@@ -100,7 +101,11 @@ def p_elemento_clase(p):
                       | asignacion
                       | declaracion'''
 
-
+def p_error(p):
+    if p:
+        print(f"Error de sintaxis en '{p.value}' (línea {p.lineno})")
+    else:
+        print("Error de sintaxis al final del archivo")
 
 # FUNCION
 parser = yacc.yacc()
