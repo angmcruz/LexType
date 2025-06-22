@@ -1,0 +1,5 @@
+Error de sintaxis en token '=' (línea 16, posición 195)
+Error de sintaxis en token '}' (línea 20, posición 330)
+Error de sintaxis en token '}' (línea 30, posición 541)
+Error de sintaxis en token '{' (línea 36, posición 629)
+Error de sintaxis en token '{' (línea 38, posición 687)

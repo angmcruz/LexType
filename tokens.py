@@ -1,63 +1,38 @@
 import ply.lex as lex
 
-# Lista de nombres de tokens
+# Lista de nombres de tokens COMPLETA
 tokens = [
     # Palabras reservadas
     'IF', 'ELSE', 'FOR', 'WHILE', 'FUNCTION', 'RETURN',
-    'LET', 'CONST', 'CLASS', 'EXTENDS', 'SWITCH', 'CASE',
-    'BREAK', 'CONTINUE', 'TRUE', 'FALSE',
+    'LET', 'CONST', 'CLASS', 'IN', 'OF', 'TRUE', 'FALSE', 'NEW',
 
-    # Operadores
+    # Tipos TypeScript
+    'STRING_TYPE', 'NUMBER_TYPE', 'BOOLEAN',
+
+    # Operadores aritméticos
     'PLUS', 'MINUS', 'MULT', 'DIV', 'MOD',
-    'GT', 'LT', 'GTE', 'LTE', 'EQ', 'SEQ', 'NEQ', 'SNEQ',
-    'ASSIGN', 'INC', 'DEC', 'NOT', 
+
+    # Operadores de comparación
+    'GT', 'LT', 'GTE', 'LTE', 'EQ', 'NEQ',
+
+    # Operadores de asignación e incremento
+    'ASSIGN', 'INC', 'DEC',
+
+    # Conectores lógicos
+    'AND', 'OR', 'NOT',
 
     # Símbolos
-    'SEMICOLON', 'COLON', 'COMMA', 'PUNTO' ,
+    'SEMICOLON', 'COMMA', 'PUNTO', 'COLON',
     'LBRACE', 'RBRACE', 'LPAREN', 'RPAREN', 'LBRACKET', 'RBRACKET',
 
-    # Identificadores y otros
-    'ID', 'NUMBER', 'STRING'
- 
-    # conectores logicos
-    'AND', 'OR', 'NOT'
+    # Identificadores y literales
+    'ID', 'NUMBER', 'STRING', 'TEMPLATE_LITERAL',
 
-
+    # Propiedades especiales agregadas
+    'SIZE', 'LENGTH'
 ]
 
-
-t_PLUS       = r'\+'
-t_MINUS      = r'-'
-t_MULT       = r'\*'
-t_DIV        = r'/'
-t_MOD        = r'%'
-t_GT         = r'>'
-t_LT         = r'<'
-t_GTE        = r'>='
-t_LTE        = r'<='
-t_EQ         = r'=='
-t_SEQ        = r'==='
-t_NEQ        = r'!='
-t_SNEQ       = r'!=='
-t_ASSIGN     = r'='
-t_INC        = r'\+\+'
-t_DEC        = r'--'
-t_PUNTO      = r'\.'
-t_SEMICOLON  = r';'
-t_COLON      = r':'
-t_COMMA      = r','
-t_NOT        = r'!'
-t_LBRACE     = r'\{'
-t_RBRACE     = r'\}'
-t_LPAREN     = r'\('
-t_RPAREN     = r'\)'
-t_LBRACKET   = r'\['
-t_RBRACKET   = r'\]'
-t_AND = r'\&\&'
-t_OR = r'\|\|'
-t_NOT = r'\!'
-
-
+# Palabras reservadas - EXPANDIDO
 reserved_map = {
     'if': 'IF',
     'else': 'ELSE',
@@ -68,48 +43,110 @@ reserved_map = {
     'let': 'LET',
     'const': 'CONST',
     'class': 'CLASS',
-    'extends': 'EXTENDS',
-    'switch': 'SWITCH',
-    'case': 'CASE',
-    'break': 'BREAK',
-    'continue': 'CONTINUE',
+    'in': 'IN',
+    'of': 'OF',
     'true': 'TRUE',
-    'false': 'FALSE'
+    'false': 'FALSE',
+    'new': 'NEW',
+    'string': 'STRING_TYPE',
+    'number': 'NUMBER_TYPE',
+    'boolean': 'BOOLEAN',
+    # Propiedades especiales como palabras reservadas
+    'size': 'SIZE',
+    'length': 'LENGTH',
 }
 
+# Operadores de comparación (orden importante - de más específico a menos específico)
+t_GTE = r'>='
+t_LTE = r'<='
+t_EQ = r'==='
+t_NEQ = r'!=='
+t_GT = r'>'
+t_LT = r'<'
+
+# Operadores de incremento (orden importante)
+t_INC = r'\+\+'
+t_DEC = r'--'
+
+# Operadores lógicos (orden importante)
+t_AND = r'&&'
+t_OR = r'\|\|'
+t_NOT = r'!'
+
+# Operadores aritméticos
+t_PLUS = r'\+'
+t_MINUS = r'-'
+t_MULT = r'\*'
+t_DIV = r'/'
+t_MOD = r'%'
+
+# Operadores de asignación
+t_ASSIGN = r'='
+
+# Símbolos
+t_PUNTO = r'\.'
+t_COLON = r':'
+t_SEMICOLON = r';'
+t_COMMA = r','
+t_LBRACE = r'\{'
+t_RBRACE = r'\}'
+t_LPAREN = r'\('
+t_RPAREN = r'\)'
+t_LBRACKET = r'\['
+t_RBRACKET = r'\]'
+
+# Template literals mejorado para manejar interpolación
+def t_TEMPLATE_LITERAL(t):
+    r'`([^`\\]|\\.|(\{[^}]*\}))*`'
+    return t
+
+# Strings mejorado para manejar escapes
 def t_STRING(t):
     r'"([^"\\]|\\.)*"|\'([^\'\\]|\\.)*\''
     return t
 
+# Números mejorado (enteros y decimales)
 def t_NUMBER(t):
     r'\d+(\.\d+)?'
-    t.value = float(t.value) if '.' in t.value else int(t.value)
+    if '.' in t.value:
+        t.value = float(t.value)
+    else:
+        t.value = int(t.value)
     return t
 
-
+# Identificadores - MEJORADO para manejar palabras reservadas
 def t_ID(t):
     r'[a-zA-Z_][a-zA-Z0-9_]*'
+    # Verificar si es una palabra reservada
     t.type = reserved_map.get(t.value, 'ID')
     return t
 
-
+# Caracteres ignorados
 t_ignore = ' \t'
 
+# Comentarios multi-línea mejorado
+def t_COMMENT_MULTILINE(t):
+    r'/\*(.|\n)*?\*/'
+    t.lexer.lineno += t.value.count('\n')
 
-def t_COMMENT(t):
+# Comentarios de una línea mejorado
+def t_COMMENT_SINGLE(t):
     r'//.*'
     pass
 
-
+# Manejo de saltos de línea
 def t_newline(t):
     r'\n+'
     t.lexer.lineno += len(t.value)
 
-errores = [] 
+# Lista global para errores
+errores = []
 
+# Manejo de errores léxicos mejorado
 def t_error(t):
-    errores.append(f"Línea {t.lineno}: Invalido '{t.value[0]}'")
-    print(f"Invalido: {t.value[0]}")
+    error_msg = f"Línea {t.lineno}: Carácter inválido '{t.value[0]}'"
+    errores.append(error_msg)
+    print(error_msg)
     t.lexer.skip(1)
 
 # CREANDO EL LEXER

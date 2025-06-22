@@ -1,0 +1,2 @@
+Error de sintaxis en token '=' (línea 16)
+Error de sintaxis en token '=' (línea 26)

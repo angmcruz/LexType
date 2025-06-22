@@ -22,7 +22,7 @@ with open(ruta2, "r", encoding="utf-8") as f:
 with open(ruta3, "r", encoding="utf-8") as f:
     codigo3 = f.read()
 
-#PARA LEXICO 
+#PARA LEXICO
 
 #analizar_codigo(codigo1, "Erick")
 #analizar_codigo(codigo2, "Melissa")
@@ -31,13 +31,14 @@ with open(ruta3, "r", encoding="utf-8") as f:
 
 #SINTACTICO
 parser.parse(codigo, lexer)
+parser.parse(codigo1, lexer)
 
 
 # LOGS DE SINTACTICO
 os.makedirs("SintaxLogs", exist_ok=True)
 
 fecha_hora = datetime.datetime.now().strftime("%d%m%Y-%Hh%M")
-usuario = "user"  
+usuario = "user"
 nombre_archivo = f"SintaxLogs/sintactico-{usuario}-{fecha_hora}.txt"
 
 if errores:
