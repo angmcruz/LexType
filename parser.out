@@ -1,0 +1,133 @@
+Created by PLY version 3.11 (http://www.dabeaz.com/ply)
+
+Unused terminals:
+
+    BREAK
+    CASE
+    COLON
+    CONTINUE
+    DEC
+    DIV
+    ELSE
+    EQ
+    EXTENDS
+    FALSE
+    FOR
+    GT
+    GTE
+    IF
+    INC
+    LT
+    LTE
+    MINUS
+    MOD
+    MULT
+    NEQ
+    NOT
+    PLUS
+    RETURN
+    SEQ
+    SNEQ
+    SWITCH
+    TRUE
+
+Grammar
+
+Rule 0     S' -> programa
+Rule 1     programa -> cuerpo
+Rule 2     cuerpo -> sentencia
+Rule 3     cuerpo -> sentencia cuerpo
+Rule 4     funcion -> FUNCTION ID LPAREN RPAREN LBRACE RBRACE
+Rule 5     funcion -> FUNCTION ID LPAREN RPAREN LBRACE body RBRACE
+Rule 6     body -> sentence
+Rule 7     body -> sentence body
+Rule 8     asignacion -> LET ID ASSIGN expresion SEMICOLON
+Rule 9     declaracion -> CONST ID ASSIGN expresion SEMICOLON
+Rule 10    impresion -> ID PUNTO ID LPAREN STRING RPAREN SEMICOLON
+Rule 11    input_teclado -> LET ID ASSIGN ID LPAREN STRING RPAREN SEMICOLON
+Rule 12    elementos -> elementos COMMA expresion
+Rule 13    elementos -> expresion
+Rule 14    sentencia_while -> WHILE LPAREN expresion RPAREN bloque
+Rule 15    bloque -> LBRACE cuerpo RBRACE
+Rule 16    expresion -> NUMBER
+Rule 17    expresion -> STRING
+Rule 18    expresion -> ID
+Rule 19    expresion -> LBRACKET elementos RBRACKET
+Rule 20    expresion -> LPAREN expresion RPAREN
+Rule 21    clase -> CLASS ID LBRACE cuerpo_clase RBRACE
+Rule 22    cuerpo_clase -> cuerpo_clase elemento_clase
+Rule 23    cuerpo_clase -> elemento_clase
+Rule 24    elemento_clase -> funcion
+Rule 25    elemento_clase -> asignacion
+Rule 26    elemento_clase -> declaracion
+
+Terminals, with rules where they appear
+
+ASSIGN               : 8 9 11
+BREAK                : 
+CASE                 : 
+CLASS                : 21
+COLON                : 
+COMMA                : 12
+CONST                : 9
+CONTINUE             : 
+DEC                  : 
+DIV                  : 
+ELSE                 : 
+EQ                   : 
+EXTENDS              : 
+FALSE                : 
+FOR                  : 
+FUNCTION             : 4 5
+GT                   : 
+GTE                  : 
+ID                   : 4 5 8 9 10 10 11 11 18 21
+IF                   : 
+INC                  : 
+LBRACE               : 4 5 15 21
+LBRACKET             : 19
+LET                  : 8 11
+LPAREN               : 4 5 10 11 14 20
+LT                   : 
+LTE                  : 
+MINUS                : 
+MOD                  : 
+MULT                 : 
+NEQ                  : 
+NOT                  : 
+NUMBER               : 16
+PLUS                 : 
+PUNTO                : 10
+RBRACE               : 4 5 15 21
+RBRACKET             : 19
+RETURN               : 
+RPAREN               : 4 5 10 11 14 20
+SEMICOLON            : 8 9 10 11
+SEQ                  : 
+SNEQ                 : 
+STRING               : 10 11 17
+SWITCH               : 
+TRUE                 : 
+WHILE                : 14
+error                : 
+
+Nonterminals, with rules where they appear
+
+asignacion           : 25
+bloque               : 14
+body                 : 5 7
+clase                : 
+cuerpo               : 1 3 15
+cuerpo_clase         : 21 22
+declaracion          : 26
+elemento_clase       : 22 23
+elementos            : 12 19
+expresion            : 8 9 12 13 14 20
+funcion              : 24
+impresion            : 
+input_teclado        : 
+programa             : 0
+sentence             : 6 7
+sentencia            : 2 3
+sentencia_while      : 
+

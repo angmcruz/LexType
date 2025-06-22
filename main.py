@@ -1,4 +1,6 @@
 from lexico import analizar_codigo
+from sintactico import parser
+from lexico import lexer
 
 ruta1 = "algoritmo1.ts"
 ruta2 = "algoritmo2.ts"
@@ -14,8 +16,12 @@ with open(ruta2, "r", encoding="utf-8") as f:
 with open(ruta3, "r", encoding="utf-8") as f:
     codigo3 = f.read()
 
-analizar_codigo(codigo1, "Erick")
-analizar_codigo(codigo2, "Melissa")
-analizar_codigo(codigo3, "Josue")
+#analizar_codigo(codigo1, "Erick")
+#analizar_codigo(codigo2, "Melissa")
+#analizar_codigo(codigo3, "Josue")
 
 
+with open("prueba.ts", "r", encoding="utf-8") as f:
+    codigo = f.read()
+
+parser.parse(codigo, lexer)
