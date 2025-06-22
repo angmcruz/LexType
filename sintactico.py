@@ -9,7 +9,7 @@
 
 import ply.yacc as yacc
 from tokens import tokens
-
+errores = []
 
 
 def p_programa(p):
@@ -103,9 +103,13 @@ def p_elemento_clase(p):
 
 def p_error(p):
     if p:
-        print(f"Error de sintaxis en '{p.value}' (línea {p.lineno})")
+        mensaje = f"Error de sintaxis en '{p.value}' (línea {p.lineno})"
     else:
-        print("Error de sintaxis al final del archivo")
+        mensaje = "Error de sintaxis al final del archivo"
+
+    print(mensaje)
+    errores.append(mensaje)
+
 
 # FUNCION
 parser = yacc.yacc()
