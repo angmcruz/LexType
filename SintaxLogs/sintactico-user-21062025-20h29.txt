@@ -1,0 +1,2 @@
+Error de sintaxis en '<' (línea 4)
+Error de sintaxis en 'x' (línea 5)

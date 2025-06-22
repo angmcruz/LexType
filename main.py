@@ -35,9 +35,10 @@ parser.parse(codigo, lexer)
 
 # LOGS DE SINTACTICO
 os.makedirs("SintaxLogs", exist_ok=True)
+
 fecha_hora = datetime.datetime.now().strftime("%d%m%Y-%Hh%M")
 usuario = "user"  
-nombre_archivo = f"logs/sintactico-{usuario}-{fecha_hora}.txt"
+nombre_archivo = f"SintaxLogs/sintactico-{usuario}-{fecha_hora}.txt"
 
 if errores:
     with open(nombre_archivo, "w", encoding="utf-8") as f:
