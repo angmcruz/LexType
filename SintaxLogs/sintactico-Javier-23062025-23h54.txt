@@ -1,0 +1,17 @@
+=== ANÁLISIS SINTÁCTICO - Javier ===
+Fecha: 23/06/2025 23:54:02
+==================================================
+
+ERRORES ENCONTRADOS:
+1. Error de sintaxis en token '=' (línea 66)
+2. Error de sintaxis en token '{' (línea 66)
+3. Error de sintaxis en token 'if' (línea 67)
+4. Error de sintaxis en token '{' (línea 67)
+5. Error de sintaxis en token 'todosMayores' (línea 68)
+6. Error de sintaxis en token '=' (línea 68)
+7. Error de sintaxis en token 'false' (línea 68)
+8. Error de sintaxis en token ';' (línea 68)
+9. Error de sintaxis en token '}' (línea 69)
+10. Error de sintaxis en token '}' (línea 70)
+
+Total de errores: 10

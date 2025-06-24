@@ -1,0 +1,4 @@
+Línea 85: Reconozco el símbolo 'let' como LET
+Línea 85: Reconozco el símbolo 'var' como ID
+Línea 85: Reconozco el símbolo '=' como ASSIGN
+Línea 85: Reconozco el símbolo '1' como NUMBER

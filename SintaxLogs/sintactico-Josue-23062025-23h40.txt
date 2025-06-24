@@ -1,0 +1,7 @@
+=== ANÁLISIS SINTÁCTICO - Josue ===
+Fecha: 23/06/2025 23:40:34
+==================================================
+
+✅ No se encontraron errores sintácticos
+
+Total de errores: 0

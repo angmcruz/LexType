@@ -1,0 +1,8 @@
+=== ANÁLISIS SINTÁCTICO - sdf ===
+Fecha: 23/06/2025 23:51:57
+==================================================
+
+❌ ERRORES ENCONTRADOS:
+1. Error de sintaxis: final de entrada inesperado
+
+Total de errores: 1
