@@ -53,6 +53,7 @@ def p_sentencia(p):
                  | clase
                  | sentencia_return
                  | llamada_funcion_stmt
+                 | sentencia_inc_dec
                  | bloque'''
 
 
@@ -222,6 +223,21 @@ def p_sentencia_for_in(p):
                         | FOR LPAREN LET ID OF expresion RPAREN bloque'''
     print(f"For...in/of detectado: iterando {p[4]}")
 
+def p_sentencia_inc_dec(p):
+    '''sentencia_inc_dec : ID INC SEMICOLON
+                            | ID DEC SEMICOLON
+                            | INC ID SEMICOLON
+                            | DEC ID SEMICOLON'''
+    if len(p) == 4:
+        if p[2] == '++':
+            print(f"Post-incremento detectado: {p[1]}++")
+        elif p[2] == '--':
+            print(f"Post-decremento detectado: {p[1]}--")
+        elif p[1] == '++':
+            print(f"Pre-incremento detectado: ++{p[2]}")
+        elif p[1] == '--':
+            print(f"Pre-decremento detectado: --{p[2]}")
+
 
 def p_inicializacion(p):
     '''inicializacion : LET ID ASSIGN expresion
@@ -238,6 +254,8 @@ def p_condicion(p):
 def p_incremento(p):
     '''incremento : ID INC
                   | ID DEC
+                  | INC ID
+                  | DEC ID
                   | variable ASSIGN expresion
                   | empty'''
 

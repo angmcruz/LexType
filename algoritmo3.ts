@@ -6,8 +6,8 @@ function contarPares(numeros: number[]): number {
  let contador = 0;
  for (let i = 0; i < numeros.length; i++) {
  if (numeros[i] % 2 === 0) {
- contador++;
- }
+  contador++;
+  }
  }
  return contador;
 }
@@ -18,8 +18,8 @@ console.log("Cantidad de números pares: " + contarPares(arreglo));
 function todosMayoresA(m: Map<string, number>, umbral: number): boolean {
  for (let valor of m.values()) {
  if (valor <= umbral) {
- return false;
- }
+  return false;
+  }
  }
  return true;
 }

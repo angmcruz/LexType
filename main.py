@@ -30,9 +30,10 @@ with open(ruta3, "r", encoding="utf-8") as f:
 
 
 #SINTACTICO
-parser.parse(codigo, lexer)
-parser.parse(codigo1, lexer)
-
+#parser.parse(codigo, lexer)
+#parser.parse(codigo1, lexer)
+#parser.parse(codigo2, lexer)
+parser.parse(codigo3, lexer)
 
 # LOGS DE SINTACTICO
 os.makedirs("SintaxLogs", exist_ok=True)

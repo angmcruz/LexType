@@ -51,7 +51,6 @@ reserved_map = {
     'string': 'STRING_TYPE',
     'number': 'NUMBER_TYPE',
     'boolean': 'BOOLEAN',
-    # Propiedades especiales como palabras reservadas
     'size': 'SIZE',
     'length': 'LENGTH',
 }
@@ -64,11 +63,11 @@ t_NEQ = r'!=='
 t_GT = r'>'
 t_LT = r'<'
 
-# Operadores de incremento (orden importante)
+# Operadores de incremento
 t_INC = r'\+\+'
 t_DEC = r'--'
 
-# Operadores lógicos (orden importante)
+# Operadores lógicos
 t_AND = r'&&'
 t_OR = r'\|\|'
 t_NOT = r'!'

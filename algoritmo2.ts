@@ -5,7 +5,7 @@ let frutasSet: Set<string> = new Set(["manzana", "pera", "uva"]);
 let frutasMap: Map<string, number> = new Map([
  ["manzana", 1],
  ["pera", 2],
- ["uva", 3],
+ ["uva", 3]
 ]);
 function tienenMismosElementos(set: Set<string>, map: Map<string, number>): boolean {
  if (set.size !== map.size) return false;
