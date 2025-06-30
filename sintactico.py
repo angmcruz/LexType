@@ -1,4 +1,5 @@
 import ply.yacc as yacc
+import semantico
 from tokens import tokens
 from datetime import datetime
 import os
@@ -479,5 +480,20 @@ def analizar_sintaxis(codigo: str, usuario: str):
         return None, False
 
 
+# ==================== FUNCIONES DE PRODUCCION ====================
+
+def p_declaracion(p):
+    'declaracion : LET ID EQUALS expresion'
+    tipo = p[4]['tipo']
+    semantico.declarar_variable(p[2], tipo)
+
+def p_asignacion(p):
+    'asignacion : ID EQUALS expresion'
+    tipo_valor = p[3]['tipo']
+    semantico.verificar_asignacion(p[1], tipo_valor)
+
+
+
 # Crear el parser
 parser = yacc.yacc(debug=False, write_tables=True)
+
