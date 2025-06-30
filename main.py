@@ -1,6 +1,7 @@
 from lexico import analizar_codigo
 from sintactico import parser, errores, analizar_sintaxis
 from lexico import lexer
+from semantico import guardar_log
 import datetime
 import os
 
