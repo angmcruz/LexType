@@ -1,7 +1,7 @@
 from lexico import analizar_codigo
-from sintactico import parser, errores, analizar_sintaxis
+from sintactico import parser, errores, reiniciar_analisis
 from lexico import lexer
-from semantico import guardar_log
+import semantico
 import datetime
 import os
 
@@ -36,8 +36,9 @@ def mostrar_menu_analisis():
     print("=" * 40)
     print("1. Solo análisis léxico")
     print("2. Solo análisis sintáctico")
-    print("3. Ambos análisis")
-    print("4. Volver")
+    print("3. Solo análisis semántico")
+    print("4. Análisis completo (léxico + sintáctico + semántico)")
+    print("5. Volver")
     print("-" * 40)
 
 
@@ -92,20 +93,23 @@ def ejecutar_analisis_lexico(codigo, usuario):
     try:
         log_path = analizar_codigo(codigo, usuario)
         if log_path:
-            print(f"Análisis léxico completado. Log guardado en: {log_path}")
+            print(f"✅ Análisis léxico completado. Log guardado en: {log_path}")
         else:
-            print("Error en el análisis léxico.")
+            print("❌ Error en el análisis léxico.")
     except Exception as e:
-        print(f"Error crítico en análisis léxico: {str(e)}")
+        print(f"❌ Error crítico en análisis léxico: {str(e)}")
 
 
 def ejecutar_analisis_sintactico(codigo, usuario):
     """Ejecuta el análisis sintáctico"""
-    print(f"\nEjecutando análisis sintáctico para {usuario}...")
+    print(f"\n🔍 Ejecutando análisis sintáctico para {usuario}...")
     try:
         # Limpiar errores previos
         global errores
         errores.clear()
+        
+        # Reiniciar análisis
+        reiniciar_analisis()
 
         # Ejecutar parser
         resultado = parser.parse(codigo, lexer)
@@ -125,20 +129,65 @@ def ejecutar_analisis_sintactico(codigo, usuario):
             f.write("=" * 50 + "\n\n")
 
             if errores:
-                f.write("ERRORES ENCONTRADOS:\n")
+                f.write("ERRORES SINTÁCTICOS ENCONTRADOS:\n")
+                f.write("-" * 32 + "\n")
                 for i, error in enumerate(errores, 1):
                     f.write(f"{i}. {error}\n")
-                print(f"Se encontraron {len(errores)} errores sintácticos.")
+                print(f"❌ Se encontraron {len(errores)} errores sintácticos.")
             else:
-                f.write("No se encontraron errores sintácticos\n")
-                print("Código sintácticamente correcto.")
+                f.write("✅ No se encontraron errores sintácticos\n")
+                print("✅ Código sintácticamente correcto.")
 
-            f.write(f"\nTotal de errores: {len(errores)}\n")
+            f.write(f"\nTotal de errores sintácticos: {len(errores)}\n")
 
-        print(f"Log guardado en: {nombre_archivo}")
+        print(f"Log sintáctico guardado en: {nombre_archivo}")
 
     except Exception as e:
-        print(f"Error crítico en análisis sintáctico: {str(e)}")
+        print(f"❌ Error crítico en análisis sintáctico: {str(e)}")
+
+
+def ejecutar_analisis_semantico(codigo, usuario):
+    """Ejecuta el análisis semántico"""
+    print(f"\nEjecutando análisis semántico para {usuario}...")
+    try:
+        # Reiniciar análisis semántico
+        semantico.reiniciar_tabla()
+        
+        # Ejecutar parser (que incluye las reglas semánticas)
+        resultado = parser.parse(codigo, lexer)
+        
+        # Mostrar resumen
+        semantico.mostrar_resumen()
+        
+        # Guardar log
+        log_path = semantico.guardar_log(usuario)
+        
+        if semantico.tiene_errores():
+            print(f"❌ Se encontraron {len(semantico.obtener_errores())} errores semánticos.")
+        else:
+            print("✅ Código semánticamente correcto.")
+            
+        return log_path
+
+    except Exception as e:
+        print(f"❌ Error crítico en análisis semántico: {str(e)}")
+        return None
+
+
+def ejecutar_analisis_completo(codigo, usuario):
+    """Ejecuta análisis léxico, sintáctico y semántico"""
+    print(f"\nEjecutando análisis completo para {usuario}...")
+    print("=" * 60)
+    
+    # Análisis léxico
+    ejecutar_analisis_lexico(codigo, usuario)
+    
+    # Análisis sintáctico y semántico (se hacen juntos)
+    ejecutar_analisis_sintactico(codigo, usuario)
+    ejecutar_analisis_semantico(codigo, usuario)
+    
+    print("\n✅ Análisis completo terminado.")
+    print("=" * 60)
 
 
 def procesar_algoritmo_predefinido(opcion_algoritmo):
@@ -178,7 +227,7 @@ def procesar_algoritmo_predefinido(opcion_algoritmo):
 
 def main():
     """Función principal con menú interactivo"""
-
+    
     while True:
         mostrar_menu()
 
@@ -201,17 +250,18 @@ def main():
                             # Menú de tipo de análisis
                             while True:
                                 mostrar_menu_analisis()
-                                tipo_analisis = input("Selecciona el tipo de análisis (1-4): ").strip()
+                                tipo_analisis = input("Selecciona el tipo de análisis (1-5): ").strip()
 
-                                if tipo_analisis == '4':
+                                if tipo_analisis == '5':
                                     break
                                 elif tipo_analisis == '1':
                                     ejecutar_analisis_lexico(codigo, usuario)
                                 elif tipo_analisis == '2':
                                     ejecutar_analisis_sintactico(codigo, usuario)
                                 elif tipo_analisis == '3':
-                                    ejecutar_analisis_lexico(codigo, usuario)
-                                    ejecutar_analisis_sintactico(codigo, usuario)
+                                    ejecutar_analisis_semantico(codigo, usuario)
+                                elif tipo_analisis == '4':
+                                    ejecutar_analisis_completo(codigo, usuario)
                                 else:
                                     print("Opción inválida. Intenta de nuevo.")
                         break
@@ -230,20 +280,20 @@ def main():
                     # Menú de tipo de análisis para código personalizado
                     while True:
                         mostrar_menu_analisis()
-                        tipo_analisis = input("Selecciona el tipo de análisis (1-4): ").strip()
+                        tipo_analisis = input("Selecciona el tipo de análisis (1-5): ").strip()
 
-                        if tipo_analisis == '4':
+                        if tipo_analisis == '5':
                             break
                         elif tipo_analisis == '1':
                             ejecutar_analisis_lexico(codigo, usuario)
                         elif tipo_analisis == '2':
                             ejecutar_analisis_sintactico(codigo, usuario)
                         elif tipo_analisis == '3':
-                            ejecutar_analisis_lexico(codigo, usuario)
-                            ejecutar_analisis_sintactico(codigo, usuario)
+                            ejecutar_analisis_semantico(codigo, usuario)
+                        elif tipo_analisis == '4':
+                            ejecutar_analisis_completo(codigo, usuario)
                         else:
                             print("Opción inválida. Intenta de nuevo.")
-
                         break
 
             elif opcion == '3':
@@ -261,5 +311,5 @@ def main():
 
 
 if __name__ == "__main__":
-    print("Iniciando Analizador Léxico y Sintáctico TypeScript...")
+    print("Iniciando Analizador Léxico, Sintáctico y Semántico TypeScript...")
     main()

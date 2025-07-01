@@ -1,10 +1,77 @@
 import ply.yacc as yacc
 import semantico
 from tokens import tokens
-from datetime import datetime
-import os
 
 errores = []
+
+# ==================== TABLA DE SÍMBOLOS Y REGLAS SEMÁNTICAS ====================
+# Tabla de símbolos global para análisis semántico
+tabla_simbolos = {
+    "variables": {},  # {nombre: tipo}
+    "funciones": {},  # {nombre: {"parametros": [tipos], "retorno": tipo}}
+    "tipos": {
+        "string_funciones": ["length", "substring", "toUpperCase", "toLowerCase", "toString"],
+        "array_funciones": ["push", "pop", "length"],
+        "map_funciones": ["set", "get", "has", "size", "values"],
+        "set_funciones": ["add", "has", "size", "delete"]
+    }
+}
+
+def agregar_error_semantico(mensaje, lineno=None):
+    """Función para agregar errores semánticos al módulo semántico"""
+    if lineno:
+        error = f"Línea {lineno}: {mensaje}"
+    else:
+        error = mensaje
+    
+    semantico.registrar_error(error)
+
+def obtener_tipo_expresion(valor, tipo_token=None):
+    """Determina el tipo de una expresión basado en su valor"""
+    if isinstance(valor, int):
+        return "number"
+    elif isinstance(valor, float):
+        return "number"
+    elif isinstance(valor, str) and tipo_token == "STRING":
+        return "string"
+    elif valor == "true" or valor == "false":
+        return "boolean"
+    else:
+        return "unknown"
+
+def son_tipos_compatibles(tipo1, tipo2, operacion="asignacion"):
+    """Verifica si dos tipos son compatibles para una operación"""
+    if tipo1 == tipo2:
+        return True
+    
+    # Operaciones aritméticas solo entre números
+    if operacion == "aritmetica":
+        return tipo1 == "number" and tipo2 == "number"
+    
+    # Para asignaciones, ser más estricto
+    if operacion == "asignacion":
+        return tipo1 == tipo2
+    
+    return False
+
+def reiniciar_analisis():
+    """Reinicia el estado del análisis sintáctico y semántico"""
+    global errores, tabla_simbolos
+    errores = []
+    semantico.errores_semanticos = []
+    semantico.reiniciar_tabla()
+    
+    # Reiniciar tabla de símbolos
+    tabla_simbolos = {
+        "variables": {},
+        "funciones": {},
+        "tipos": {
+            "string_funciones": ["length", "substring", "toUpperCase", "toLowerCase", "toString"],
+            "array_funciones": ["push", "pop", "length"],
+            "map_funciones": ["set", "get", "has", "size", "values"],
+            "set_funciones": ["add", "has", "size", "delete"]
+        }
+    }
 
 # ==================== PRECEDENCIA MEJORADA ====================
 precedence = (
@@ -23,22 +90,18 @@ precedence = (
     ('right', 'ASSIGN'),
 )
 
-
 # ==================== PROGRAMA PRINCIPAL ====================
 def p_programa(p):
     '''programa : cuerpo'''
     print("Programa analizado correctamente")
 
-
 def p_cuerpo(p):
     '''cuerpo : sentencias
               | empty'''
 
-
 def p_sentencias(p):
     '''sentencias : sentencia
                   | sentencias sentencia'''
-
 
 # ==================== SENTENCIAS ====================
 def p_sentencia(p):
@@ -57,59 +120,102 @@ def p_sentencia(p):
                  | sentencia_inc_dec
                  | bloque'''
 
-
 def p_sentencia_return(p):
     '''sentencia_return : RETURN expresion SEMICOLON
                         | RETURN SEMICOLON'''
     print("Return detectado")
 
-
 def p_llamada_funcion_stmt(p):
     '''llamada_funcion_stmt : llamada_funcion SEMICOLON
                             | llamada_metodo SEMICOLON'''
 
+# ==================== ASIGNACIÓN Y DECLARACIÓN CON SEMÁNTICA ====================
 
-# ==================== ASIGNACIÓN Y DECLARACIÓN ====================
 def p_asignacion(p):
     '''asignacion : LET ID ASSIGN expresion SEMICOLON
                   | LET ID COLON tipo ASSIGN expresion SEMICOLON
                   | variable ASSIGN expresion SEMICOLON'''
-    if len(p) == 6 and p[1] == 'let':
-        print(f"Asignación: {p[2]}")
-    elif len(p) == 8:  # LET ID : tipo = expresion ;
-        print(f"Asignación tipada: {p[2]}")
-    else:
+    
+    if len(p) == 6 and p[1] == 'let':  # LET ID = expresion
+        nombre = p[2]
+        tipo_expr = p[4] if p[4] else "unknown"
+        
+        # REGLA SEMÁNTICA 1: Registrar variable en tabla de símbolos
+        semantico.declarar_variable(nombre, tipo_expr)
+        print(f"Asignación: {nombre} = {tipo_expr}")
+        
+    elif len(p) == 8:  # LET ID : tipo = expresion
+        nombre = p[2]
+        tipo_declarado = p[4]
+        tipo_expr = p[6] if p[6] else "unknown"
+        
+        # REGLA SEMÁNTICA 2: Verificar compatibilidad de tipos en asignación
+        if not son_tipos_compatibles(tipo_declarado, tipo_expr, "asignacion"):
+            agregar_error_semantico(f"Incompatibilidad de tipos: no se puede asignar {tipo_expr} a variable de tipo {tipo_declarado}")
+        
+        semantico.declarar_variable(nombre, tipo_declarado)
+        print(f"Asignación tipada: {nombre} : {tipo_declarado}")
+        
+    else:  # variable = expresion
+        # REGLA SEMÁNTICA 1: Verificar que la variable existe antes de asignar
+        if hasattr(p[1], 'id'):
+            nombre = p[1].id
+            tipo_expr = p[3] if p[3] else "unknown"
+            semantico.verificar_asignacion(nombre, tipo_expr)
         print("Asignación a variable")
-
-
+        
 def p_declaracion(p):
     '''declaracion : CONST ID ASSIGN expresion SEMICOLON
                    | CONST ID COLON tipo ASSIGN expresion SEMICOLON
                    | LET ID COLON tipo SEMICOLON
                    | declaracion_array
                    | declaracion_map_set'''
+    
     if len(p) >= 5 and p[1] == 'const':
-        print(f"Declaración constante: {p[2]}")
-    elif len(p) == 5 and p[1] == 'let':
-        print(f"Declaración variable: {p[2]}")
-
+        nombre = p[2]
+        if len(p) == 6:  # CONST ID = expresion
+            tipo_expr = p[4] if p[4] else "unknown"
+        else:  # CONST ID : tipo = expresion
+            tipo_declarado = p[4]
+            tipo_expr = p[6] if p[6] else "unknown"
+            
+            # REGLA SEMÁNTICA 2: Verificar compatibilidad de tipos
+            if not son_tipos_compatibles(tipo_declarado, tipo_expr, "asignacion"):
+                agregar_error_semantico(f"Incompatibilidad de tipos en constante: no se puede asignar {tipo_expr} a {tipo_declarado}")
+            tipo_expr = tipo_declarado
+            
+        tabla_simbolos["variables"][nombre] = tipo_expr
+        semantico.declarar_variable(nombre, tipo_expr)
+        print(f"Declaración constante: {nombre}")
+        
+    elif len(p) == 6 and p[1] == 'let':  # LET ID : tipo ;
+        nombre = p[2]
+        tipo = p[4]
+        tabla_simbolos["variables"][nombre] = tipo
+        semantico.declarar_variable(nombre, tipo)
+        print(f"Declaración variable: {nombre}")
 
 def p_declaracion_array(p):
     '''declaracion_array : LET ID COLON tipo_array ASSIGN expresion SEMICOLON'''
-    print(f"Declaración de array: {p[2]}")
-
+    nombre = p[2]
+    tipo_array = f"{p[4]}[]"
+    tabla_simbolos["variables"][nombre] = tipo_array
+    semantico.declarar_variable(nombre, tipo_array)
+    print(f"Declaración de array: {nombre}")
 
 def p_declaracion_map_set(p):
     '''declaracion_map_set : LET ID COLON tipo_generico ASSIGN NEW ID LPAREN argumentos_constructor RPAREN SEMICOLON
                            | LET ID COLON tipo_generico ASSIGN NEW ID LPAREN RPAREN SEMICOLON'''
-    print(f"Declaración de Map/Set: {p[2]}")
-
+    nombre = p[2]
+    tipo = p[4]
+    tabla_simbolos["variables"][nombre] = tipo
+    semantico.declarar_variable(nombre, tipo)
+    print(f"Declaración de Map/Set: {nombre}")
 
 def p_argumentos_constructor(p):
     '''argumentos_constructor : array_de_pares
                               | argumentos
                               | array_literal'''
-
 
 # ==================== TIPOS ====================
 def p_tipo(p):
@@ -117,58 +223,110 @@ def p_tipo(p):
             | tipo_array
             | tipo_generico
             | ID'''
-
+    p[0] = p[1]
 
 def p_tipo_primitivo(p):
     '''tipo_primitivo : STRING_TYPE
                       | NUMBER_TYPE
                       | BOOLEAN'''
-
+    if p[1] == 'string':
+        p[0] = "string"
+    elif p[1] == 'number':
+        p[0] = "number"
+    elif p[1] == 'boolean':
+        p[0] = "boolean"
 
 def p_tipo_array(p):
     '''tipo_array : tipo_primitivo LBRACKET RBRACKET
                   | ID LBRACKET RBRACKET'''
-
+    p[0] = f"{p[1]}[]"
 
 def p_tipo_generico(p):
     '''tipo_generico : ID LT tipo GT
                      | ID LT tipo COMMA tipo GT'''
+    if len(p) == 5:
+        p[0] = f"{p[1]}<{p[3]}>"
+    else:
+        p[0] = f"{p[1]}<{p[3]},{p[5]}>"
 
-
-# ==================== VARIABLES Y ACCESO ====================
+# ==================== VARIABLES Y ACCESO CON SEMÁNTICA ====================
 def p_variable(p):
     '''variable : ID
                 | variable PUNTO ID
                 | variable LBRACKET expresion RBRACKET'''
+    
+    if len(p) == 2:  # ID simple
+        nombre = p[1]
+        # REGLA SEMÁNTICA 1: Verificar que la variable existe
+        tipo_var = semantico.usar_variable(nombre)
+        # Crear un objeto simple para pasar el ID
+        class Variable:
+            def __init__(self, id, tipo):
+                self.id = id
+                self.tipo = tipo
+        
+        p[0] = Variable(nombre, tipo_var)
+    else:
+        p[0] = "unknown"
 
-
-# ==================== LLAMADAS A FUNCIONES Y MÉTODOS ====================
+# ==================== LLAMADAS A FUNCIONES Y MÉTODOS CON SEMÁNTICA ====================
 def p_llamada_funcion(p):
     '''llamada_funcion : ID LPAREN argumentos RPAREN
                        | ID LPAREN RPAREN'''
-    print(f"Llamada a función: {p[1]}")
-
+    
+    nombre_funcion = p[1]
+    
+    # REGLA SEMÁNTICA 4: Verificar que la función existe y parámetros correctos
+    if nombre_funcion in tabla_simbolos["funciones"]:
+        func_info = tabla_simbolos["funciones"][nombre_funcion]
+        num_params_esperados = len(func_info["parametros"])
+        num_params_recibidos = 0 if len(p) == 4 else 1  # Simplificado
+        
+        if num_params_esperados != num_params_recibidos:
+            agregar_error_semantico(f"Función '{nombre_funcion}' espera {num_params_esperados} parámetros, pero recibió {num_params_recibidos}")
+        
+        p[0] = func_info["retorno"]
+    else:
+        # Funciones built-in como console.log, prompt, etc.
+        if nombre_funcion in ["console", "prompt", "Math"]:
+            p[0] = "void"
+        else:
+            agregar_error_semantico(f"Función '{nombre_funcion}' no ha sido declarada")
+            p[0] = "unknown"
+    
+    print(f"Llamada a función: {nombre_funcion}")
 
 def p_llamada_metodo(p):
     '''llamada_metodo : variable PUNTO ID LPAREN argumentos RPAREN
                       | variable PUNTO ID LPAREN RPAREN'''
+    
+    metodo = p[3]
+    tipo_objeto = p[1] if p[1] else "unknown"
+    
+    # REGLA SEMÁNTICA 3: Verificar que el método existe para el tipo
+    if tipo_objeto == "string" and metodo not in tabla_simbolos["tipos"]["string_funciones"]:
+        agregar_error_semantico(f"El método '{metodo}' no existe para tipo string")
+    elif tipo_objeto.endswith("[]") and metodo not in tabla_simbolos["tipos"]["array_funciones"]:
+        agregar_error_semantico(f"El método '{metodo}' no existe para arrays")
+    elif "Map" in str(tipo_objeto) and metodo not in tabla_simbolos["tipos"]["map_funciones"]:
+        agregar_error_semantico(f"El método '{metodo}' no existe para Map")
+    elif "Set" in str(tipo_objeto) and metodo not in tabla_simbolos["tipos"]["set_funciones"]:
+        agregar_error_semantico(f"El método '{metodo}' no existe para Set")
+    
     print("Llamada a método detectado")
-
+    p[0] = "unknown"
 
 def p_argumentos(p):
     '''argumentos : expresion
                   | argumentos COMMA expresion'''
-
 
 # ==================== IMPRESIÓN ====================
 def p_impresion(p):
     '''impresion : console_log SEMICOLON'''
     print("Impresión detectada")
 
-
 def p_console_log(p):
     '''console_log : ID PUNTO ID LPAREN lista_argumentos RPAREN'''
-
 
 def p_lista_argumentos(p):
     '''lista_argumentos : argumentos
@@ -177,25 +335,27 @@ def p_lista_argumentos(p):
                         | lista_argumentos COMMA string_especial
                         | empty'''
 
-
 def p_string_especial(p):
     '''string_especial : STRING
                        | TEMPLATE_LITERAL
                        | LBRACE ID RBRACE'''
-
 
 # ==================== INPUT TECLADO ====================
 def p_input_teclado(p):
     '''input_teclado : LET ID ASSIGN llamada_funcion SEMICOLON'''
     print("Input de teclado detectado")
 
-
 # ==================== ESTRUCTURAS DE CONTROL ====================
 def p_sentencia_if(p):
     '''sentencia_if : IF LPAREN expresion RPAREN sentencia_ejecutable
                     | IF LPAREN expresion RPAREN sentencia_ejecutable ELSE sentencia_ejecutable'''
+    
+    # REGLA SEMÁNTICA 7: Verificar que la condición sea de tipo boolean
+    tipo_condicion = p[3] if p[3] else "unknown"
+    if tipo_condicion != "boolean" and tipo_condicion != "unknown":
+        agregar_error_semantico(f"La condición del IF debe ser de tipo boolean, no {tipo_condicion}")
+    
     print("Estructura IF detectada")
-
 
 def p_sentencia_ejecutable(p):
     '''sentencia_ejecutable : bloque
@@ -208,16 +368,26 @@ def p_sentencia_ejecutable(p):
                             | sentencia_while
                             | sentencia_for'''
 
-
 def p_sentencia_while(p):
     '''sentencia_while : WHILE LPAREN expresion RPAREN bloque'''
+    
+    # REGLA SEMÁNTICA 7: Verificar que la condición sea de tipo boolean
+    tipo_condicion = p[3] if p[3] else "unknown"
+    if tipo_condicion != "boolean" and tipo_condicion != "unknown":
+        agregar_error_semantico(f"La condición del WHILE debe ser de tipo boolean, no {tipo_condicion}")
+    
     print("While detectado")
-
 
 def p_sentencia_for(p):
     '''sentencia_for : FOR LPAREN inicializacion SEMICOLON condicion SEMICOLON incremento RPAREN bloque'''
+    
+    # REGLA SEMÁNTICA 7: Verificar que la condición sea de tipo boolean
+    if p[5]:  # Si hay condición
+        tipo_condicion = p[5] if p[5] else "unknown"
+        if tipo_condicion != "boolean" and tipo_condicion != "unknown":
+            agregar_error_semantico(f"La condición del FOR debe ser de tipo boolean, no {tipo_condicion}")
+    
     print("For detectado")
-
 
 def p_sentencia_for_in(p):
     '''sentencia_for_in : FOR LPAREN LET ID IN expresion RPAREN bloque
@@ -229,6 +399,15 @@ def p_sentencia_inc_dec(p):
                             | ID DEC SEMICOLON
                             | INC ID SEMICOLON
                             | DEC ID SEMICOLON'''
+    
+    # REGLA SEMÁNTICA 8: Verificar que la variable para incremento/decremento sea numérica
+    variable = p[1] if p[1] != '++' and p[1] != '--' else p[2]
+    if variable in tabla_simbolos["variables"]:
+        tipo_var = tabla_simbolos["variables"][variable]
+        if tipo_var != "number":
+            operador = "++" if "++" in p[1:] else "--"
+            agregar_error_semantico(f"El operador '{operador}' solo se puede aplicar a variables de tipo number, no {tipo_var}")
+    
     if len(p) == 4:
         if p[2] == '++':
             print(f"Post-incremento detectado: {p[1]}++")
@@ -239,18 +418,17 @@ def p_sentencia_inc_dec(p):
         elif p[1] == '--':
             print(f"Pre-decremento detectado: --{p[2]}")
 
-
 def p_inicializacion(p):
     '''inicializacion : LET ID ASSIGN expresion
                       | variable ASSIGN expresion
                       | LET ID COLON tipo
                       | empty'''
 
-
 def p_condicion(p):
     '''condicion : expresion
                  | empty'''
-
+    if len(p) == 2:
+        p[0] = p[1]
 
 def p_incremento(p):
     '''incremento : ID INC
@@ -260,25 +438,40 @@ def p_incremento(p):
                   | variable ASSIGN expresion
                   | empty'''
 
-
 def p_bloque(p):
     '''bloque : LBRACE cuerpo RBRACE
               | LBRACE RBRACE'''
 
-
-# ==================== EXPRESIONES ====================
+# ==================== EXPRESIONES CON SEMÁNTICA ====================
 def p_expresion_binaria_aritmetica(p):
     '''expresion : expresion PLUS expresion
                  | expresion MINUS expresion
                  | expresion MULT expresion
                  | expresion DIV expresion
                  | expresion MOD expresion'''
-
+    
+    tipo_izq = p[1] if p[1] else "unknown"
+    tipo_der = p[3] if p[3] else "unknown"
+    operador = p[2]
+    
+    # REGLA SEMÁNTICA 5: Verificar compatibilidad en operaciones aritméticas
+    resultado_tipo = semantico.verificar_operacion(tipo_izq, operador, tipo_der)
+    if not resultado_tipo:
+        agregar_error_semantico(f"Operación aritmética '{operador}' no válida entre {tipo_izq} y {tipo_der}")
+    
+    p[0] = "number"
 
 def p_expresion_unaria(p):
     '''expresion : MINUS expresion %prec UMINUS
                  | PLUS expresion %prec UPLUS'''
-
+    tipo_expr = p[2] if p[2] else "unknown"
+    
+    # REGLA SEMÁNTICA 5: Operadores unarios solo para números
+    if tipo_expr != "number" and tipo_expr != "unknown":
+        operador = p[1]
+        agregar_error_semantico(f"Operador unario '{operador}' no válido para tipo {tipo_expr}")
+    
+    p[0] = "number"
 
 def p_expresion_relacional(p):
     '''expresion : expresion GT expresion
@@ -287,26 +480,45 @@ def p_expresion_relacional(p):
                  | expresion LTE expresion
                  | expresion EQ expresion
                  | expresion NEQ expresion'''
-
+    
+    tipo_izq = p[1] if p[1] else "unknown"
+    tipo_der = p[3] if p[3] else "unknown"
+    operador = p[2]
+    
+    # Usar la función del módulo semántico
+    resultado_tipo = semantico.verificar_operacion(tipo_izq, operador, tipo_der)
+    p[0] = "boolean"
 
 def p_expresion_logica(p):
     '''expresion : expresion AND expresion
                  | expresion OR expresion'''
-
+    
+    tipo_izq = p[1] if p[1] else "unknown"
+    tipo_der = p[3] if p[3] else "unknown"
+    operador = p[2]
+    
+    # Usar la función del módulo semántico
+    resultado_tipo = semantico.verificar_operacion(tipo_izq, operador, tipo_der)
+    p[0] = "boolean"
 
 def p_expresion_negacion(p):
     '''expresion : NOT expresion'''
-
+    tipo_expr = p[2] if p[2] else "unknown"
+    
+    # REGLA SEMÁNTICA: NOT solo para booleanos
+    if tipo_expr != "boolean" and tipo_expr != "unknown":
+        agregar_error_semantico(f"Operador NOT solo válido para tipo boolean, no {tipo_expr}")
+    
+    p[0] = "boolean"
 
 def p_expresion_acceso(p):
     '''expresion : expresion PUNTO ID
                  | expresion LBRACKET expresion RBRACKET'''
 
-
 def p_expresion_llamadas(p):
     '''expresion : llamada_funcion
                  | llamada_metodo'''
-
+    p[0] = p[1]
 
 def p_expresion_basica(p):
     '''expresion : NUMBER
@@ -318,39 +530,46 @@ def p_expresion_basica(p):
                  | LPAREN expresion RPAREN
                  | array_literal
                  | map_set_literal'''
-
+    
+    if p[1] == 'true' or p[1] == 'false':
+        p[0] = "boolean"
+    elif hasattr(p.slice[1], 'type'):
+        if p.slice[1].type == 'NUMBER':
+            p[0] = "number"
+        elif p.slice[1].type == 'STRING' or p.slice[1].type == 'TEMPLATE_LITERAL':
+            p[0] = "string"
+        else:
+            p[0] = p[1]
+    else:
+        p[0] = p[1] if p[1] else "unknown"
 
 # ==================== ESTRUCTURAS DE DATOS ====================
 def p_array_literal(p):
     '''array_literal : LBRACKET elementos RBRACKET
                      | LBRACKET RBRACKET'''
     print("Array detectado")
-
+    p[0] = "unknown[]"
 
 def p_elementos(p):
     '''elementos : expresion
                  | elementos COMMA expresion'''
-
 
 def p_map_set_literal(p):
     '''map_set_literal : NEW ID LPAREN array_de_pares RPAREN
                        | NEW ID LPAREN argumentos RPAREN
                        | NEW ID LPAREN RPAREN'''
     print("Map/Set detectado")
-
+    p[0] = p[2]
 
 def p_array_de_pares(p):
     '''array_de_pares : LBRACKET pares RBRACKET'''
-
 
 def p_pares(p):
     '''pares : par
              | pares COMMA par'''
 
-
 def p_par(p):
     '''par : LBRACKET expresion COMMA expresion RBRACKET'''
-
 
 # ==================== FUNCIONES CON TIPOS TYPESCRIPT ====================
 def p_funcion(p):
@@ -358,44 +577,70 @@ def p_funcion(p):
                | FUNCTION ID LPAREN parametros RPAREN COLON tipo LBRACE cuerpo RBRACE
                | FUNCTION ID LPAREN RPAREN LBRACE cuerpo RBRACE
                | FUNCTION ID LPAREN RPAREN COLON tipo LBRACE cuerpo RBRACE'''
-    print(f"Función: {p[2]}")
-
+    
+    nombre_funcion = p[2]
+    
+    # REGLA SEMÁNTICA 6: Registrar función en tabla de símbolos
+    if len(p) == 9:  # Sin parámetros, sin tipo de retorno
+        tabla_simbolos["funciones"][nombre_funcion] = {
+            "parametros": [],
+            "retorno": "void"
+        }
+    elif len(p) == 10:  # Con parámetros, sin tipo de retorno
+        tabla_simbolos["funciones"][nombre_funcion] = {
+            "parametros": p[4] if p[4] else [],
+            "retorno": "void"
+        }
+    elif len(p) == 11:  # Sin parámetros, con tipo de retorno
+        tabla_simbolos["funciones"][nombre_funcion] = {
+            "parametros": [],
+            "retorno": p[6]
+        }
+    else:  # Con parámetros y tipo de retorno
+        tabla_simbolos["funciones"][nombre_funcion] = {
+            "parametros": p[4] if p[4] else [],
+            "retorno": p[7]
+        }
+    
+    print(f"Función: {nombre_funcion}")
 
 def p_parametros(p):
     '''parametros : parametro
                   | parametros COMMA parametro'''
-
+    if len(p) == 2:
+        p[0] = [p[1]] if p[1] else []
+    else:
+        p[0] = p[1] + [p[3]] if p[1] and p[3] else []
 
 def p_parametro(p):
     '''parametro : ID
                  | ID COLON tipo
                  | ID COLON tipo_generico
                  | ID COLON tipo_array'''
-
+    if len(p) == 2:
+        p[0] = "unknown"
+    else:
+        p[0] = p[3]
 
 # ==================== CLASES ====================
 def p_clase(p):
     '''clase : CLASS ID LBRACE cuerpo_clase RBRACE'''
     print(f"Clase definida: {p[2]}")
 
-
 def p_cuerpo_clase(p):
     '''cuerpo_clase : elementos_clase
                     | empty'''
 
-
 def p_elementos_clase(p):
     '''elementos_clase : elemento_clase
                        | elementos_clase elemento_clase'''
-
 
 def p_elemento_clase(p):
     '''elemento_clase : funcion
                       | asignacion
                       | declaracion'''
 
-
-# ==================== MÉTODOS ESPECIALES (para .has, .values, etc.) ====================
+# ==================== MÉTODOS ESPECIALES ====================
 def p_expresion_metodos_especiales(p):
     '''expresion : variable PUNTO ID LPAREN RPAREN
                  | variable PUNTO ID LPAREN argumentos RPAREN
@@ -403,97 +648,30 @@ def p_expresion_metodos_especiales(p):
                  | variable PUNTO LENGTH'''
     print("Método/Propiedad especial detectado")
 
-
-# Agregar SIZE y LENGTH como tokens especiales
 def p_expresion_propiedades(p):
     '''expresion : variable PUNTO ID'''
     if p[3] in ['size', 'length', 'values', 'has']:
         print(f"Propiedad/método {p[3]} detectado")
 
-
-# ==================== EXPRESIONES ESPECIALES PARA MAP/SET ====================
 def p_expresion_constructor_con_array(p):
     '''expresion : NEW ID LPAREN array_literal RPAREN'''
     print(f"Constructor {p[2]} con array detectado")
-
 
 # ==================== UTILIDADES ====================
 def p_empty(p):
     '''empty :'''
     pass
 
-
 def p_error(p):
     if p:
         mensaje = f"Error de sintaxis en token '{p.value}' (línea {p.lineno})"
         print(mensaje)
         errores.append(mensaje)
-
-        # Recuperación de errores mejorada
         parser.errok()
     else:
         mensaje = "Error de sintaxis: final de entrada inesperado"
         print(mensaje)
         errores.append(mensaje)
 
-
-# ==================== FUNCIÓN PRINCIPAL DE ANÁLISIS ====================
-def analizar_sintaxis(codigo: str, usuario: str):
-    global errores
-    errores = []
-
-    try:
-        resultado = parser.parse(codigo, debug=False)
-        print("Análisis sintáctico completado")
-
-        # Crear directorio de logs si no existe
-        logs_dir = "SyntaxLogs"
-        os.makedirs(logs_dir, exist_ok=True)
-
-        # Generar nombre de archivo con timestamp
-        fecha_hora = datetime.now().strftime("%d%m%Y-%Hh%M")
-        log_filename = f"sintactico-{usuario}-{fecha_hora}.txt"
-        log_path = os.path.join(logs_dir, log_filename)
-
-        # Escribir log
-        with open(log_path, "w", encoding="utf-8") as f:
-            f.write(f"=== ANÁLISIS SINTÁCTICO - {usuario} ===\n")
-            f.write(f"Fecha: {datetime.now().strftime('%d/%m/%Y %H:%M:%S')}\n")
-            f.write("=" * 50 + "\n\n")
-
-            if errores:
-                f.write("ERRORES ENCONTRADOS:\n")
-                for i, error in enumerate(errores, 1):
-                    f.write(f"{i}. {error}\n")
-            else:
-                f.write("✓ No se encontraron errores sintácticos\n")
-
-            f.write(f"\nTotal de errores: {len(errores)}\n")
-
-        print(f"Log guardado en: {log_path}")
-        return log_path, len(errores) == 0
-
-    except Exception as e:
-        error_msg = f"Error crítico en el análisis: {str(e)}"
-        errores.append(error_msg)
-        print(error_msg)
-        return None, False
-
-
-# ==================== FUNCIONES DE PRODUCCION ====================
-
-def p_declaracion(p):
-    'declaracion : LET ID EQUALS expresion'
-    tipo = p[4]['tipo']
-    semantico.declarar_variable(p[2], tipo)
-
-def p_asignacion(p):
-    'asignacion : ID EQUALS expresion'
-    tipo_valor = p[3]['tipo']
-    semantico.verificar_asignacion(p[1], tipo_valor)
-
-
-
 # Crear el parser
 parser = yacc.yacc(debug=False, write_tables=True)
-
