@@ -306,7 +306,7 @@ def p_llamada_metodo(p):
     # REGLA SEMÁNTICA 3: Verificar que el método existe para el tipo
     if tipo_objeto == "string" and metodo not in tabla_simbolos["tipos"]["string_funciones"]:
         agregar_error_semantico(f"El método '{metodo}' no existe para tipo string")
-    elif tipo_objeto.endswith("[]") and metodo not in tabla_simbolos["tipos"]["array_funciones"]:
+    elif isinstance(tipo_objeto, str) and tipo_objeto.endswith("[]") and metodo not in tabla_simbolos["tipos"]["array_funciones"]:
         agregar_error_semantico(f"El método '{metodo}' no existe para arrays")
     elif "Map" in str(tipo_objeto) and metodo not in tabla_simbolos["tipos"]["map_funciones"]:
         agregar_error_semantico(f"El método '{metodo}' no existe para Map")
@@ -669,7 +669,7 @@ def p_error(p):
         errores.append(mensaje)
         parser.errok()
     else:
-        mensaje = "Error de sintaxis: final de entrada inesperado"
+        mensaje = "Error de sintaxis: final de entrada inesperado. Falta ;"
         print(mensaje)
         errores.append(mensaje)
 

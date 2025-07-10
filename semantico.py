@@ -146,14 +146,10 @@ def obtener_errores():
 
 def tiene_errores():
     """Verifica si hay errores semánticos"""
-    if not activar:
-        return True
     return len(errores_semanticos) > 0
 
 def guardar_log(usuario):
     """Guarda los errores semánticos en un archivo log"""
-    if not activar:
-        return True
     # Crear directorio si no existe
     if not os.path.exists("SemLogs"):
         os.makedirs("SemLogs")

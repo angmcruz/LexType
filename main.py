@@ -131,11 +131,14 @@ def ejecutar_analisis_sintactico(codigo, usuario):
                 for i, error in enumerate(errores, 1):
                     f.write(f"{i}. {error}\n")
                 print(f"❌ Se encontraron {len(errores)} errores sintácticos.")
+                print("❌ No se ejecuta análisis semántico por errores sintácticos")
+                return
             else:
                 f.write("✅ No se encontraron errores sintácticos\n")
                 print("✅ Código sintácticamente correcto.")
-
+        
             f.write(f"\nTotal de errores sintácticos: {len(errores)}\n")
+            
 
 
     except Exception as e:
