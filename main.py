@@ -89,7 +89,7 @@ def leer_codigo_personalizado():
 
 def ejecutar_analisis_lexico(codigo, usuario):
     """Ejecuta el análisis léxico"""
-    print(f"\n🔍 Ejecutando análisis léxico para {usuario}...")
+    print(f"\n Ejecutando análisis léxico para {usuario}...")
     try:
         log_path = analizar_codigo(codigo, usuario)
         if log_path:
@@ -106,7 +106,7 @@ def ejecutar_analisis_sintactico(codigo, usuario):
     try:
         global errores
         errores.clear()
-        
+        semantico.activar = False
 
         reiniciar_analisis()
 

@@ -78,22 +78,61 @@ class LexTypeGUI(tk.Tk):
         for widget in self.winfo_children():
             widget.destroy()
 
-        tk.Label(self, text="Muestra de Codigo", font=("Arial", 12)).pack()
-        self.area_codigo = scrolledtext.ScrolledText(self, height=12, font=("Courier", 11))
-        self.area_codigo.pack(padx=10, pady=5, fill=tk.X)
+        self.configure(bg="#f0f4f8")
+        tk.Label(self, text="📄 Muestra de Código", font=("Arial", 14, "bold"), bg="#f0f4f8", fg="#333").pack(pady=(10, 0))
+        self.area_codigo = scrolledtext.ScrolledText(
+        self,
+        height=12,
+        font=("Courier", 11),
+        bg="white",
+        fg="#111",
+        relief=tk.FLAT,
+        bd=4,
+        highlightbackground="#c4d7f2",
+        highlightcolor="#4a90e2",
+        highlightthickness=1,
+        insertbackground="#000"
+            )
+        self.area_codigo.pack(padx=20, pady=5, fill=tk.BOTH, expand=False)
 
-        tk.Label(self, text="Salida de errores y aprobados", font=("Arial", 12)).pack()
-        self.area_resultado = scrolledtext.ScrolledText(self, height=10, font=("Courier", 11), bg="#f0f0f0")
-        self.area_resultado.pack(padx=10, pady=5, fill=tk.BOTH, expand=True)
+   
+        tk.Label(self, text="✅ Salida de errores y aprobados", font=("Arial", 14, "bold"), bg="#f0f4f8", fg="#333").pack(pady=(15, 0))
+        self.area_resultado = scrolledtext.ScrolledText(
+        self,
+        height=10,
+        font=("Courier", 11),
+        bg="#f7f7f7",
+        fg="#111",
+        relief=tk.FLAT,
+        bd=4,
+        highlightbackground="#d6e3f3",
+        highlightcolor="#4a90e2",
+        highlightthickness=1
+        )
+        self.area_resultado.pack(padx=20, pady=5, fill=tk.BOTH, expand=True)
 
-        frame_botones = tk.Frame(self)
-        frame_botones.pack(pady=10)
+        frame_botones = tk.Frame(self, bg="#f0f4f8")
+        frame_botones.pack(pady=15)
 
-        tk.Button(frame_botones, text="léxico", width=15, command=self.analizar_lexico).pack(side=tk.LEFT, padx=5)
-        tk.Button(frame_botones, text="sintáctico", width=15, command=self.analizar_sintactico).pack(side=tk.LEFT, padx=5)
-        tk.Button(frame_botones, text="semántico", width=15, command=self.analizar_semantico).pack(side=tk.LEFT, padx=5)
-        tk.Button(frame_botones, text="completo", width=15, command=self.analizar_completo).pack(side=tk.LEFT, padx=5)
-        tk.Button(frame_botones, text="volver", width=15, command=self.pantalla_inicio).pack(side=tk.RIGHT, padx=5)
+        estilo_btn = {
+        "font": ("Arial", 11),
+        "bg": "#4a90e2",
+        "fg": "white",
+        "activebackground": "#357ABD",
+        "activeforeground": "white",
+        "width": 12,
+        "bd": 0,
+        "relief": tk.FLAT,
+        "cursor": "hand2",
+        "padx": 5,
+        "pady": 5
+        }
+
+        tk.Button(frame_botones, text="léxico", command=self.analizar_lexico, **estilo_btn).pack(side=tk.LEFT, padx=5)
+        tk.Button(frame_botones, text="sintáctico", command=self.analizar_sintactico, **estilo_btn).pack(side=tk.LEFT, padx=5)
+        tk.Button(frame_botones, text="semántico", command=self.analizar_semantico, **estilo_btn).pack(side=tk.LEFT, padx=5)
+        tk.Button(frame_botones, text="completo", command=self.analizar_completo, **estilo_btn).pack(side=tk.LEFT, padx=5)
+        tk.Button(frame_botones, text="volver", command=self.pantalla_inicio, **estilo_btn).pack(side=tk.RIGHT, padx=10)
 
     def mostrar_codigo_predefinido(self):
         opcion = simpledialog.askinteger("Algoritmo", "Selecciona 1, 2 o 3")

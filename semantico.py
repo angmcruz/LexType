@@ -6,6 +6,11 @@ import os
 tabla_simbolos = {}
 errores_semanticos = []
 
+activar = True 
+# uso de bandera porque el parser tiene reglas semanticas
+
+
+
 class ErrorSemantico(Exception):
     pass
 
@@ -18,6 +23,8 @@ def reiniciar_tabla():
 
 def declarar_variable(nombre, tipo):
     """Declara una variable en la tabla de símbolos"""
+    if not activar:
+        return True
     if nombre in tabla_simbolos:
         registrar_error(f"La variable '{nombre}' ya fue declarada.")
         return False
@@ -27,6 +34,8 @@ def declarar_variable(nombre, tipo):
 
 def usar_variable(nombre):
     """Verifica que una variable existe antes de usarla"""
+    if not activar:
+        return True
     if nombre not in tabla_simbolos:
         registrar_error(f"La variable '{nombre}' no ha sido declarada.")
         return "unknown"
@@ -34,6 +43,8 @@ def usar_variable(nombre):
 
 def verificar_asignacion(nombre, tipo_valor):
     """Verifica que la asignación sea compatible con el tipo declarado"""
+    if not activar:
+        return True
     if nombre not in tabla_simbolos:
         registrar_error(f"La variable '{nombre}' no ha sido declarada.")
         return False
@@ -47,7 +58,8 @@ def verificar_asignacion(nombre, tipo_valor):
 def verificar_operacion(tipo1, operador, tipo2):
     """Verifica que una operación sea válida entre dos tipos"""
     print(f"🔍 Verificando operación: {tipo1} {operador} {tipo2}")
-    
+    if not activar:
+        return True
     # Operaciones aritméticas
     if operador in ['+', '-', '*', '/', '%']:
         if tipo1 == "number" and tipo2 == "number":
@@ -81,6 +93,8 @@ def verificar_operacion(tipo1, operador, tipo2):
 def verificar_funcion_existe(nombre_funcion):
     """Verifica si una función ha sido declarada"""
     # Lista de funciones built-in
+    if not activar:
+        return True
     funciones_builtin = ["console", "prompt", "Math"]
     
     if nombre_funcion in funciones_builtin:
@@ -91,6 +105,8 @@ def verificar_funcion_existe(nombre_funcion):
 
 def verificar_metodo_objeto(tipo_objeto, metodo):
     """Verifica si un método existe para un tipo de objeto"""
+    if not activar:
+        return True
     metodos_validos = {
         "string": ["length", "substring", "toUpperCase", "toLowerCase", "toString"],
         "array": ["push", "pop", "length"],
@@ -116,20 +132,28 @@ def verificar_metodo_objeto(tipo_objeto, metodo):
 
 def registrar_error(mensaje):
     """Registra un error semántico"""
+    if not activar:
+        return True
     error_completo = f"[ERROR SEMÁNTICO] {mensaje}"
     errores_semanticos.append(error_completo)
     print(f"❌ {error_completo}")
 
 def obtener_errores():
     """Devuelve la lista de errores semánticos"""
+    if not activar:
+        return True
     return errores_semanticos
 
 def tiene_errores():
     """Verifica si hay errores semánticos"""
+    if not activar:
+        return True
     return len(errores_semanticos) > 0
 
 def guardar_log(usuario):
     """Guarda los errores semánticos en un archivo log"""
+    if not activar:
+        return True
     # Crear directorio si no existe
     if not os.path.exists("SemLogs"):
         os.makedirs("SemLogs")
