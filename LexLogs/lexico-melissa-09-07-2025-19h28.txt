@@ -1,0 +1,4 @@
+Línea 1: Reconozco el símbolo 'nombre' como ID
+Línea 1: Reconozco el símbolo '=' como ASSIGN
+Línea 1: Reconozco el símbolo '"hola"' como STRING
+Línea 1: Reconozco el símbolo 'FIN' como ID

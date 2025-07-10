@@ -1,0 +1,14 @@
+=== ANÁLISIS SEMÁNTICO - melissa ===
+Fecha: 09/07/2025 19:28:11
+==================================================
+
+ERRORES SEMÁNTICOS ENCONTRADOS:
+-----------------------------------
+1. [ERROR SEMÁNTICO] La variable 'nombre' no ha sido declarada.
+
+Total de errores semánticos: 1
+
+==================================================
+TABLA DE SÍMBOLOS:
+--------------------
+(Vacía)

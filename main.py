@@ -102,23 +102,20 @@ def ejecutar_analisis_lexico(codigo, usuario):
 
 def ejecutar_analisis_sintactico(codigo, usuario):
     """Ejecuta el análisis sintáctico"""
-    print(f"\n🔍 Ejecutando análisis sintáctico para {usuario}...")
+    print(f"\n Ejecutando análisis sintáctico para {usuario}...")
     try:
-        # Limpiar errores previos
         global errores
         errores.clear()
         
-        # Reiniciar análisis
+
         reiniciar_analisis()
 
-        # Ejecutar parser
         resultado = parser.parse(codigo, lexer)
 
-        # Crear directorio de logs si no existe
         logs_dir = "SintaxLogs"
         os.makedirs(logs_dir, exist_ok=True)
 
-        # Generar nombre de archivo con timestamp
+
         fecha_hora = datetime.datetime.now().strftime("%d%m%Y-%Hh%M")
         nombre_archivo = f"SintaxLogs/sintactico-{usuario}-{fecha_hora}.txt"
 
@@ -140,7 +137,6 @@ def ejecutar_analisis_sintactico(codigo, usuario):
 
             f.write(f"\nTotal de errores sintácticos: {len(errores)}\n")
 
-        print(f"Log sintáctico guardado en: {nombre_archivo}")
 
     except Exception as e:
         print(f"❌ Error crítico en análisis sintáctico: {str(e)}")

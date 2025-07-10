@@ -1,0 +1,7 @@
+=== ANÁLISIS SINTÁCTICO - usuario_gui ===
+Fecha: 09/07/2025 19:37:33
+==================================================
+
+✅ No se encontraron errores sintácticos
+
+Total de errores sintácticos: 0

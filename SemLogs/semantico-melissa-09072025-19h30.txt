@@ -1,0 +1,12 @@
+=== ANÁLISIS SEMÁNTICO - melissa ===
+Fecha: 09/07/2025 19:30:38
+==================================================
+
+✅ No se encontraron errores semánticos
+
+Total de errores semánticos: 0
+
+==================================================
+TABLA DE SÍMBOLOS:
+--------------------
+edad : number

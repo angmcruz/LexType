@@ -28,6 +28,5 @@ def analizar_codigo(algoritmo: str, usuario: str):
         for linea in resultados:
             f.write(linea + "\n")
 
-    print(f"Log guardado en: {log_path}")
     return log_path
 

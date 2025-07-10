@@ -1,0 +1,12 @@
+=== ANÁLISIS SEMÁNTICO - usuario_gui ===
+Fecha: 09/07/2025 19:44:49
+==================================================
+
+✅ No se encontraron errores semánticos
+
+Total de errores semánticos: 0
+
+==================================================
+TABLA DE SÍMBOLOS:
+--------------------
+nombre : string

@@ -162,7 +162,6 @@ def guardar_log(usuario):
         else:
             f.write("(Vacía)\n")
     
-    print(f"Log semántico guardado en: {nombre_archivo}")
     return nombre_archivo
 
 def mostrar_resumen():
