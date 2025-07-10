@@ -33,17 +33,40 @@ class LexTypeGUI(tk.Tk):
         for widget in self.winfo_children():
             widget.destroy()
 
-        frame_inicio = tk.Frame(self)
+        self.configure(bg="#f0f4f8") 
+
+        frame_inicio = tk.Frame(self, bg="#f0f4f8")
         frame_inicio.pack(expand=True)
 
-        tk.Label(frame_inicio, text="LEXTYPE ANALIZADOR DE TYPESCRIPT :)", font=("Helvetica", 18)).pack(pady=20)
+        tk.Label(
+        frame_inicio,
+        text="LEXTYPE ANALIZADOR DE TYPESCRIPT 🙂",
+        font=("Helvetica", 20, "bold"),
+        bg="#f0f4f8",
+        fg="#333"
+            ).pack(pady=20)
 
-        tk.Button(frame_inicio, text="Analizar algoritmos predefinidos", font=("Arial", 14),
-                  command=self.cargar_algoritmo).pack(pady=10)
+        estilo_btn = {
+        "font": ("Arial", 14),
+        "bg": "#4a90e2",
+        "fg": "white",
+        "activebackground": "#357ABD",
+        "activeforeground": "white",
+        "width": 30,
+        "bd": 0,
+        "relief": tk.FLAT,
+        "cursor": "hand2"
+            }
 
-        tk.Button(frame_inicio, text="Analizar tu propio algoritmo", font=("Arial", 14),
-                  command=self.analizar_manual).pack(pady=10)
+        btn1 = tk.Button(frame_inicio, text="📁 Analizar algoritmos predefinidos",
+                     command=self.cargar_algoritmo, **estilo_btn)
+        btn1.pack(pady=10)
 
+        btn2 = tk.Button(frame_inicio, text="✏️ Analizar tu propio algoritmo",
+                     command=self.analizar_manual, **estilo_btn)
+        btn2.pack(pady=10)
+
+  
     def cargar_algoritmo(self):
         self.pantalla_analisis()
         self.mostrar_codigo_predefinido()
