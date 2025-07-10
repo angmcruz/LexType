@@ -57,7 +57,7 @@ def son_tipos_compatibles(tipo1, tipo2, operacion="asignacion"):
 def reiniciar_analisis():
     """Reinicia el estado del análisis sintáctico y semántico"""
     global errores, tabla_simbolos
-    errores = []
+    errores.clear()
     semantico.errores_semanticos = []
     semantico.reiniciar_tabla()
     

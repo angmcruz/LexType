@@ -1,0 +1,12 @@
+=== ANÁLISIS SEMÁNTICO - user ===
+Fecha: 10/07/2025 00:52:30
+==================================================
+
+✅ No se encontraron errores semánticos
+
+Total de errores semánticos: 0
+
+==================================================
+TABLA DE SÍMBOLOS:
+--------------------
+(Vacía)

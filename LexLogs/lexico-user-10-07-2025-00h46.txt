@@ -1,0 +1,7 @@
+Línea 1: Reconozco el símbolo 'lit' como ID
+Línea 1: Reconozco el símbolo 'name' como ID
+Línea 1: Reconozco el símbolo ':' como COLON
+Línea 1: Reconozco el símbolo 'string' como STRING_TYPE
+Línea 1: Reconozco el símbolo '=' como ASSIGN
+Línea 1: Reconozco el símbolo '"hola"' como STRING
+Línea 1: Reconozco el símbolo ';' como SEMICOLON

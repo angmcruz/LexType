@@ -105,17 +105,13 @@ def ejecutar_analisis_sintactico(codigo, usuario):
     print(f"\n Ejecutando análisis sintáctico para {usuario}...")
     try:
         global errores
-        errores.clear()
         semantico.activar = False
 
         reiniciar_analisis()
-
         resultado = parser.parse(codigo, lexer)
 
         logs_dir = "SintaxLogs"
         os.makedirs(logs_dir, exist_ok=True)
-
-
         fecha_hora = datetime.datetime.now().strftime("%d%m%Y-%Hh%M")
         nombre_archivo = f"SintaxLogs/sintactico-{usuario}-{fecha_hora}.txt"
 
@@ -132,12 +128,13 @@ def ejecutar_analisis_sintactico(codigo, usuario):
                     f.write(f"{i}. {error}\n")
                 print(f"❌ Se encontraron {len(errores)} errores sintácticos.")
                 print("❌ No se ejecuta análisis semántico por errores sintácticos")
-                return
+                return None 
             else:
                 f.write("✅ No se encontraron errores sintácticos\n")
                 print("✅ Código sintácticamente correcto.")
-        
-            f.write(f"\nTotal de errores sintácticos: {len(errores)}\n")
+                return resultado
+
+        f.write(f"\nTotal de errores sintácticos: {len(errores)}\n")
             
 
 
@@ -145,19 +142,14 @@ def ejecutar_analisis_sintactico(codigo, usuario):
         print(f"❌ Error crítico en análisis sintáctico: {str(e)}")
 
 
-def ejecutar_analisis_semantico(codigo, usuario):
+def ejecutar_analisis_semantico(resultado, usuario):
     """Ejecuta el análisis semántico"""
     print(f"\nEjecutando análisis semántico para {usuario}...")
     try:
         # Reiniciar análisis semántico
         semantico.reiniciar_tabla()
-        
-        # Ejecutar parser (que incluye las reglas semánticas)
-        resultado = parser.parse(codigo, lexer)
-        
         # Mostrar resumen
         semantico.mostrar_resumen()
-        
         # Guardar log
         log_path = semantico.guardar_log(usuario)
         
@@ -184,6 +176,7 @@ def ejecutar_analisis_completo(codigo, usuario):
     # Análisis sintáctico y semántico (se hacen juntos)
     ejecutar_analisis_sintactico(codigo, usuario)
     ejecutar_analisis_semantico(codigo, usuario)
+    
     
     print("\n✅ Análisis completo terminado.")
     print("=" * 60)

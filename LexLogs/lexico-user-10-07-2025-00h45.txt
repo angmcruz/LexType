@@ -1,0 +1,6 @@
+Línea 1: Reconozco el símbolo 'let' como LET
+Línea 1: Reconozco el símbolo 'name' como ID
+Línea 1: Reconozco el símbolo ':' como COLON
+Línea 1: Reconozco el símbolo 'string' como STRING_TYPE
+Línea 1: Reconozco el símbolo '=' como ASSIGN
+Línea 1: Reconozco el símbolo '"hola"' como STRING

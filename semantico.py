@@ -1,5 +1,6 @@
 # ==================== ANÁLISIS SEMÁNTICO ====================
 from datetime import datetime 
+import ply.yacc as yacc
 import os
 
 # Variables globales
@@ -205,3 +206,4 @@ def mostrar_resumen():
         print("\n✅ No se encontraron errores semánticos")
     
     print("=" * 50)
+
