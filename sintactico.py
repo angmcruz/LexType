@@ -25,6 +25,7 @@ def agregar_error_semantico(mensaje, lineno=None):
         error = mensaje
     
     semantico.registrar_error(error)
+    print(f"[DEBUG] registrando error: {error}")
 
 def obtener_tipo_expresion(valor, tipo_token=None):
     """Determina el tipo de una expresión basado en su valor"""
@@ -148,7 +149,7 @@ def p_asignacion(p):
         nombre = p[2]
         tipo_declarado = p[4]
         tipo_expr = p[6] if p[6] else "unknown"
-        
+        print(f"[DEBUG] tipo_expr: {tipo_expr}, tipo: {tipo_declarado}")
         # REGLA SEMÁNTICA 2: Verificar compatibilidad de tipos en asignación
         if not son_tipos_compatibles(tipo_declarado, tipo_expr, "asignacion"):
             agregar_error_semantico(f"Incompatibilidad de tipos: no se puede asignar {tipo_expr} a variable de tipo {tipo_declarado}")
@@ -539,9 +540,15 @@ def p_expresion_basica(p):
         elif p.slice[1].type == 'STRING' or p.slice[1].type == 'TEMPLATE_LITERAL':
             p[0] = "string"
         else:
-            p[0] = p[1]
+            p[0] = "unknown"
+    elif isinstance(p[1], str):
+        p[0] = p[1]  # Si es un tipo retornado por variable o literal
+    elif len(p) == 4:  # LPAREN expresion RPAREN
+        p[0] = p[2]
     else:
-        p[0] = p[1] if p[1] else "unknown"
+        p[0] = "unknown"
+
+    print(f"[DEBUG] expresión básica: entrada = {p[1]}, tipo = {p[0]}")
 
 # ==================== ESTRUCTURAS DE DATOS ====================
 def p_array_literal(p):

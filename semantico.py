@@ -133,16 +133,16 @@ def verificar_metodo_objeto(tipo_objeto, metodo):
 
 def registrar_error(mensaje):
     """Registra un error semántico"""
-    if not activar:
-        return True
+    
     error_completo = f"[ERROR SEMÁNTICO] {mensaje}"
     errores_semanticos.append(error_completo)
     print(f"❌ {error_completo}")
+    print(f"[DEBUG] errores_semanticos ahora tiene: {errores_semanticos}")
+
 
 def obtener_errores():
     """Devuelve la lista de errores semánticos"""
-    if not activar:
-        return True
+
     return errores_semanticos
 
 def tiene_errores():

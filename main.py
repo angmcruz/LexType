@@ -146,8 +146,6 @@ def ejecutar_analisis_semantico(resultado, usuario):
     """Ejecuta el análisis semántico"""
     print(f"\nEjecutando análisis semántico para {usuario}...")
     try:
-        # Reiniciar análisis semántico
-        semantico.reiniciar_tabla()
         # Mostrar resumen
         semantico.mostrar_resumen()
         # Guardar log

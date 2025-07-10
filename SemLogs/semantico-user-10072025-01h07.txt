@@ -1,0 +1,14 @@
+=== ANÁLISIS SEMÁNTICO - user ===
+Fecha: 10/07/2025 01:07:01
+==================================================
+
+ERRORES SEMÁNTICOS ENCONTRADOS:
+-----------------------------------
+1. [ERROR SEMÁNTICO] Incompatibilidad de tipos: no se puede asignar number a variable de tipo string
+
+Total de errores semánticos: 1
+
+==================================================
+TABLA DE SÍMBOLOS:
+--------------------
+(Vacía)

@@ -1,0 +1,14 @@
+Línea 5: Reconozco el símbolo 'let' como LET
+Línea 5: Reconozco el símbolo 'a' como ID
+Línea 5: Reconozco el símbolo ':' como COLON
+Línea 5: Reconozco el símbolo 'string' como STRING_TYPE
+Línea 5: Reconozco el símbolo '=' como ASSIGN
+Línea 5: Reconozco el símbolo '54' como NUMBER
+Línea 5: Reconozco el símbolo ';' como SEMICOLON
+Línea 6: Reconozco el símbolo 'let' como LET
+Línea 6: Reconozco el símbolo 'b' como ID
+Línea 6: Reconozco el símbolo ':' como COLON
+Línea 6: Reconozco el símbolo 'string' como STRING_TYPE
+Línea 6: Reconozco el símbolo '=' como ASSIGN
+Línea 6: Reconozco el símbolo '"hola"' como STRING
+Línea 6: Reconozco el símbolo ';' como SEMICOLON
