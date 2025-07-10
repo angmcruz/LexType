@@ -26,7 +26,7 @@ class LexTypeGUI(tk.Tk):
         super().__init__()
         self.title("LexType - Analizador TypeScript")
         self.geometry("900x600")
-        self.usuario = "usuario_gui"
+        self.usuario = "user"
         self.pantalla_inicio()
 
     def pantalla_inicio(self):

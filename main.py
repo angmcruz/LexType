@@ -93,7 +93,7 @@ def ejecutar_analisis_lexico(codigo, usuario):
     try:
         log_path = analizar_codigo(codigo, usuario)
         if log_path:
-            print(f"✅ Análisis léxico completado. Log guardado en: {log_path}")
+            print("✅ Análisis léxico completado.")
         else:
             print("❌ Error en el análisis léxico.")
     except Exception as e:
