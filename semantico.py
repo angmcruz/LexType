@@ -10,8 +10,6 @@ errores_semanticos = []
 activar = True 
 # uso de bandera porque el parser tiene reglas semanticas
 
-
-
 class ErrorSemantico(Exception):
     pass
 
@@ -137,7 +135,7 @@ def registrar_error(mensaje):
     error_completo = f"[ERROR SEMÁNTICO] {mensaje}"
     errores_semanticos.append(error_completo)
     print(f"❌ {error_completo}")
-    print(f"[DEBUG] errores_semanticos ahora tiene: {errores_semanticos}")
+    
 
 
 def obtener_errores():
