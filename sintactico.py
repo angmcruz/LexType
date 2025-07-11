@@ -478,7 +478,8 @@ def p_expresion_relacional(p):
                  | expresion GTE expresion
                  | expresion LTE expresion
                  | expresion EQ expresion
-                 | expresion NEQ expresion'''
+                 | expresion NEQ expresion
+                 | expresion IGU expresion'''
     
     tipo_izq = p[1] if p[1] else "unknown"
     tipo_der = p[3] if p[3] else "unknown"

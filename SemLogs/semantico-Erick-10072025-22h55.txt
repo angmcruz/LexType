@@ -1,0 +1,17 @@
+=== ANÁLISIS SEMÁNTICO - Erick ===
+Fecha: 10/07/2025 22:55:53
+==================================================
+
+ERRORES SEMÁNTICOS ENCONTRADOS:
+-----------------------------------
+1. [ERROR SEMÁNTICO] Función 'esPalindromo' no ha sido declarada
+2. [ERROR SEMÁNTICO] Función 'sumarDigitos' no ha sido declarada
+3. [ERROR SEMÁNTICO] Función 'esPalindromo' espera 0 parámetros, pero recibió 1
+4. [ERROR SEMÁNTICO] La condición del IF debe ser de tipo boolean, no :
+
+Total de errores semánticos: 4
+
+==================================================
+TABLA DE SÍMBOLOS:
+--------------------
+(Vacía)

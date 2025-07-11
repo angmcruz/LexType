@@ -70,7 +70,7 @@ def verificar_operacion(tipo1, operador, tipo2):
             return None
     
     # Operaciones de comparación
-    elif operador in ['<', '>', '<=', '>=', '==', '!=']:
+    elif operador in ['<', '>', '<=', '>=', '==', '!=', '!==']:
         if tipo1 == tipo2 or (tipo1 == "unknown" or tipo2 == "unknown"):
             return "boolean"
         else:

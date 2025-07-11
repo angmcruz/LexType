@@ -1,0 +1,9 @@
+=== ANÁLISIS SINTÁCTICO - user ===
+Fecha: 10/07/2025 22:55:23
+==================================================
+
+ERRORES SINTÁCTICOS ENCONTRADOS:
+--------------------------------
+1. Error de sintaxis en token 'a' (línea 123)
+2. Error de sintaxis en token ':' (línea 123)
+3. Error de sintaxis en token 'number' (línea 123)

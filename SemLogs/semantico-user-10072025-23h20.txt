@@ -1,0 +1,16 @@
+=== ANÁLISIS SEMÁNTICO - user ===
+Fecha: 10/07/2025 23:20:59
+==================================================
+
+ERRORES SEMÁNTICOS ENCONTRADOS:
+-----------------------------------
+1. [ERROR SEMÁNTICO] Incompatibilidad de tipos: no se puede asignar number a variable de tipo string
+2. [ERROR SEMÁNTICO] Función 'sumar' no ha sido declarada
+3. [ERROR SEMÁNTICO] Función 'saludar' espera 1 parámetros, pero recibió 0
+
+Total de errores semánticos: 3
+
+==================================================
+TABLA DE SÍMBOLOS:
+--------------------
+(Vacía)

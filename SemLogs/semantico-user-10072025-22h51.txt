@@ -1,0 +1,14 @@
+=== ANÁLISIS SEMÁNTICO - user ===
+Fecha: 10/07/2025 22:51:37
+==================================================
+
+ERRORES SEMÁNTICOS ENCONTRADOS:
+-----------------------------------
+1. [ERROR SEMÁNTICO] Función 'multiplica' espera 0 parámetros, pero recibió 1
+
+Total de errores semánticos: 1
+
+==================================================
+TABLA DE SÍMBOLOS:
+--------------------
+(Vacía)

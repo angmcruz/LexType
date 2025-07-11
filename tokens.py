@@ -13,7 +13,7 @@ tokens = [
     'PLUS', 'MINUS', 'MULT', 'DIV', 'MOD',
 
     # Operadores de comparación
-    'GT', 'LT', 'GTE', 'LTE', 'EQ', 'NEQ',
+    'GT', 'LT', 'GTE', 'LTE', 'EQ', 'NEQ', 'IGU',
 
     # Operadores de asignación e incremento
     'ASSIGN', 'INC', 'DEC',
@@ -57,6 +57,7 @@ reserved_map = {
 
 # Operadores de comparación (orden importante - de más específico a menos específico)
 t_GTE = r'>='
+t_IGU = r'=='
 t_LTE = r'<='
 t_EQ = r'==='
 t_NEQ = r'!=='

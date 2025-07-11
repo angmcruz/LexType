@@ -1,0 +1,7 @@
+=== ANÁLISIS SINTÁCTICO - user ===
+Fecha: 10/07/2025 22:53:51
+==================================================
+
+ERRORES SINTÁCTICOS ENCONTRADOS:
+--------------------------------
+1. Error de sintaxis: final de entrada inesperado. Falta ;

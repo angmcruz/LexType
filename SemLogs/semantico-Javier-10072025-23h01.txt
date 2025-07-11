@@ -1,0 +1,16 @@
+=== ANÁLISIS SEMÁNTICO - Javier ===
+Fecha: 10/07/2025 23:01:46
+==================================================
+
+ERRORES SEMÁNTICOS ENCONTRADOS:
+-----------------------------------
+1. [ERROR SEMÁNTICO] Función 'contarPares' espera 0 parámetros, pero recibió 1
+2. [ERROR SEMÁNTICO] Función 'todosMayoresA' espera 0 parámetros, pero recibió 1
+3. [ERROR SEMÁNTICO] La condición del IF debe ser de tipo boolean, no :
+
+Total de errores semánticos: 3
+
+==================================================
+TABLA DE SÍMBOLOS:
+--------------------
+(Vacía)

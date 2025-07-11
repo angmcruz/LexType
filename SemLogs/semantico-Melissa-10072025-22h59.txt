@@ -1,0 +1,15 @@
+=== ANÁLISIS SEMÁNTICO - Melissa ===
+Fecha: 10/07/2025 22:59:57
+==================================================
+
+ERRORES SEMÁNTICOS ENCONTRADOS:
+-----------------------------------
+1. [ERROR SEMÁNTICO] Función 'tienenMismosElementos' espera 0 parámetros, pero recibió 1
+2. [ERROR SEMÁNTICO] La condición del IF debe ser de tipo boolean, no :
+
+Total de errores semánticos: 2
+
+==================================================
+TABLA DE SÍMBOLOS:
+--------------------
+(Vacía)
