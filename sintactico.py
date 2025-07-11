@@ -17,6 +17,9 @@ tabla_simbolos = {
     }
 }
 
+# Variable para controlar análisis en dos pasadas
+primera_pasada = True
+
 def agregar_error_semantico(mensaje, lineno=None):
     """Función para agregar errores semánticos al módulo semántico"""
     if lineno:
@@ -25,19 +28,6 @@ def agregar_error_semantico(mensaje, lineno=None):
         error = mensaje
     
     semantico.registrar_error(error)
-
-def obtener_tipo_expresion(valor, tipo_token=None):
-    """Determina el tipo de una expresión basado en su valor"""
-    if isinstance(valor, int):
-        return "number"
-    elif isinstance(valor, float):
-        return "number"
-    elif isinstance(valor, str) and tipo_token == "STRING":
-        return "string"
-    elif valor == "true" or valor == "false":
-        return "boolean"
-    else:
-        return "unknown"
 
 def son_tipos_compatibles(tipo1, tipo2, operacion="asignacion"):
     """Verifica si dos tipos son compatibles para una operación"""
@@ -56,10 +46,11 @@ def son_tipos_compatibles(tipo1, tipo2, operacion="asignacion"):
 
 def reiniciar_analisis():
     """Reinicia el estado del análisis sintáctico y semántico"""
-    global errores, tabla_simbolos
+    global errores, tabla_simbolos, primera_pasada
     errores.clear()
     semantico.errores_semanticos = []
     semantico.reiniciar_tabla()
+    primera_pasada = True
     
     # Reiniciar tabla de símbolos
     tabla_simbolos = {
@@ -142,6 +133,7 @@ def p_asignacion(p):
         
         # REGLA SEMÁNTICA 1: Registrar variable en tabla de símbolos
         semantico.declarar_variable(nombre, tipo_expr)
+        tabla_simbolos["variables"][nombre] = tipo_expr
         print(f"Asignación: {nombre} = {tipo_expr}")
         
     elif len(p) == 8:  # LET ID : tipo = expresion
@@ -153,6 +145,7 @@ def p_asignacion(p):
             agregar_error_semantico(f"Incompatibilidad de tipos: no se puede asignar {tipo_expr} a variable de tipo {tipo_declarado}")
         
         semantico.declarar_variable(nombre, tipo_declarado)
+        tabla_simbolos["variables"][nombre] = tipo_declarado
         print(f"Asignación tipada: {nombre} : {tipo_declarado}")
         
     else:  # variable = expresion
@@ -275,25 +268,39 @@ def p_llamada_funcion(p):
     
     nombre_funcion = p[1]
     
-    # REGLA SEMÁNTICA 4: Verificar que la función existe y parámetros correctos
+    # REGLA SEMÁNTICA 4: Verificar que la función existe
+    tipo_retorno = semantico.usar_funcion(nombre_funcion)
+    
+    # También verificar en la tabla local
     if nombre_funcion in tabla_simbolos["funciones"]:
         func_info = tabla_simbolos["funciones"][nombre_funcion]
         num_params_esperados = len(func_info["parametros"])
-        num_params_recibidos = 0 if len(p) == 4 else 1  # Simplificado
+        num_params_recibidos = 0 if len(p) == 4 else contar_argumentos(p[3])
         
         if num_params_esperados != num_params_recibidos:
             agregar_error_semantico(f"Función '{nombre_funcion}' espera {num_params_esperados} parámetros, pero recibió {num_params_recibidos}")
         
         p[0] = func_info["retorno"]
     else:
-        # Funciones built-in como console.log, prompt, etc.
-        if nombre_funcion in ["console", "prompt", "Math"]:
-            p[0] = "void"
-        else:
-            agregar_error_semantico(f"Función '{nombre_funcion}' no ha sido declarada")
-            p[0] = "unknown"
+        p[0] = tipo_retorno
     
     print(f"Llamada a función: {nombre_funcion}")
+
+def contar_argumentos(argumentos):
+    """Función auxiliar para contar el número de argumentos en una lista"""
+    if not argumentos:
+        return 0
+    
+    # Si argumentos es una lista, devolver su longitud
+    if isinstance(argumentos, list):
+        return len(argumentos)
+    
+    # Si es un string simple, contar las comas + 1
+    if isinstance(argumentos, str):
+        return argumentos.count(',') + 1 if argumentos.strip() else 0
+    
+    # Por defecto, asumir 1 argumento si hay algo
+    return 1
 
 def p_llamada_metodo(p):
     '''llamada_metodo : variable PUNTO ID LPAREN argumentos RPAREN
@@ -303,21 +310,26 @@ def p_llamada_metodo(p):
     tipo_objeto = p[1] if p[1] else "unknown"
     
     # REGLA SEMÁNTICA 3: Verificar que el método existe para el tipo
-    if tipo_objeto == "string" and metodo not in tabla_simbolos["tipos"]["string_funciones"]:
-        agregar_error_semantico(f"El método '{metodo}' no existe para tipo string")
-    elif isinstance(tipo_objeto, str) and tipo_objeto.endswith("[]") and metodo not in tabla_simbolos["tipos"]["array_funciones"]:
-        agregar_error_semantico(f"El método '{metodo}' no existe para arrays")
-    elif "Map" in str(tipo_objeto) and metodo not in tabla_simbolos["tipos"]["map_funciones"]:
-        agregar_error_semantico(f"El método '{metodo}' no existe para Map")
-    elif "Set" in str(tipo_objeto) and metodo not in tabla_simbolos["tipos"]["set_funciones"]:
-        agregar_error_semantico(f"El método '{metodo}' no existe para Set")
+    if hasattr(tipo_objeto, 'tipo'):
+        tipo_real = tipo_objeto.tipo
+    else:
+        tipo_real = str(tipo_objeto)
+    
+    semantico.verificar_metodo_objeto(tipo_real, metodo)
     
     print("Llamada a método detectado")
     p[0] = "unknown"
 
 def p_argumentos(p):
     '''argumentos : expresion
-                  | argumentos COMMA expresion'''
+                  | argumentos COMMA expresion'''    
+    if len(p) == 2:  # expresion
+        p[0] = [p[1]]
+    else:  # argumentos COMMA expresion
+        if isinstance(p[1], list):
+            p[0] = p[1] + [p[3]]
+        else:
+            p[0] = [p[1], p[3]]
 
 # ==================== IMPRESIÓN ====================
 def p_impresion(p):
@@ -399,7 +411,7 @@ def p_sentencia_inc_dec(p):
                             | INC ID SEMICOLON
                             | DEC ID SEMICOLON'''
     
-    # REGLA SEMÁNTICA 8: Verificar que la variable para incremento/decremento sea numérica
+    # REGLA SEMÁNTICA 5: Verificar que la variable para incremento/decremento sea numérica
     variable = p[1] if p[1] != '++' and p[1] != '--' else p[2]
     if variable in tabla_simbolos["variables"]:
         tipo_var = tabla_simbolos["variables"][variable]
@@ -458,7 +470,7 @@ def p_expresion_binaria_aritmetica(p):
     if not resultado_tipo:
         agregar_error_semantico(f"Operación aritmética '{operador}' no válida entre {tipo_izq} y {tipo_der}")
     
-    p[0] = "number"
+    p[0] = resultado_tipo if resultado_tipo else "number"
 
 def p_expresion_unaria(p):
     '''expresion : MINUS expresion %prec UMINUS
@@ -485,7 +497,6 @@ def p_expresion_relacional(p):
     tipo_der = p[3] if p[3] else "unknown"
     operador = p[2]
     
-    # Usar la función del módulo semántico
     resultado_tipo = semantico.verificar_operacion(tipo_izq, operador, tipo_der)
     p[0] = "boolean"
 
@@ -497,7 +508,6 @@ def p_expresion_logica(p):
     tipo_der = p[3] if p[3] else "unknown"
     operador = p[2]
     
-    # Usar la función del módulo semántico
     resultado_tipo = semantico.verificar_operacion(tipo_izq, operador, tipo_der)
     p[0] = "boolean"
 
@@ -505,7 +515,7 @@ def p_expresion_negacion(p):
     '''expresion : NOT expresion'''
     tipo_expr = p[2] if p[2] else "unknown"
     
-    # REGLA SEMÁNTICA: NOT solo para booleanos
+    # REGLA SEMÁNTICA 7: NOT solo para booleanos
     if tipo_expr != "boolean" and tipo_expr != "unknown":
         agregar_error_semantico(f"Operador NOT solo válido para tipo boolean, no {tipo_expr}")
     
@@ -545,7 +555,10 @@ def p_expresion_basica(p):
     elif len(p) == 4:  # LPAREN expresion RPAREN
         p[0] = p[2]
     else:
-        p[0] = "unknown"
+        if hasattr(p[1], 'tipo'):
+            p[0] = p[1].tipo
+        else:
+            p[0] = "unknown"
 
 # ==================== ESTRUCTURAS DE DATOS ====================
 def p_array_literal(p):
@@ -585,28 +598,47 @@ def p_funcion(p):
     nombre_funcion = p[2]
     
     # REGLA SEMÁNTICA 6: Registrar función en tabla de símbolos
-    if len(p) == 9:  # Sin parámetros, sin tipo de retorno
+    if len(p) == 9:  # FUNCTION ID LPAREN parametros RPAREN LBRACE cuerpo RBRACE - Con parámetros, sin tipo de retorno
+        parametros_lista = p[4] if isinstance(p[4], list) else []
+        tabla_simbolos["funciones"][nombre_funcion] = {
+            "parametros": parametros_lista,
+            "retorno": "void"
+        }
+        # Registrar también en el módulo semántico
+        semantico.declarar_funcion(nombre_funcion, parametros_lista, "void")
+        print(f"Función '{nombre_funcion}' declarada con {len(parametros_lista)} parámetros y sin tipo de retorno")
+        
+    elif len(p) == 11:  # FUNCTION ID LPAREN parametros RPAREN COLON tipo LBRACE cuerpo RBRACE - Con parámetros, con tipo de retorno
+        parametros_lista = p[4] if isinstance(p[4], list) else []
+        tipo_retorno = p[7]
+        tabla_simbolos["funciones"][nombre_funcion] = {
+            "parametros": parametros_lista,
+            "retorno": tipo_retorno
+        }
+        # Registrar también en el módulo semántico
+        semantico.declarar_funcion(nombre_funcion, parametros_lista, tipo_retorno)
+        print(f"Función '{nombre_funcion}' declarada con {len(parametros_lista)} parámetros y tipo de retorno: {tipo_retorno}")
+        
+    elif len(p) == 8:  # FUNCTION ID LPAREN RPAREN LBRACE cuerpo RBRACE - Sin parámetros, sin tipo de retorno
         tabla_simbolos["funciones"][nombre_funcion] = {
             "parametros": [],
             "retorno": "void"
         }
-    elif len(p) == 10:  # Con parámetros, sin tipo de retorno
-        tabla_simbolos["funciones"][nombre_funcion] = {
-            "parametros": p[4] if p[4] else [],
-            "retorno": "void"
-        }
-    elif len(p) == 11:  # Sin parámetros, con tipo de retorno
+        # Registrar también en el módulo semántico
+        semantico.declarar_funcion(nombre_funcion, [], "void")
+        print(f"Función '{nombre_funcion}' declarada sin parámetros y sin tipo de retorno")
+        
+    elif len(p) == 10:  # FUNCTION ID LPAREN RPAREN COLON tipo LBRACE cuerpo RBRACE - Sin parámetros, con tipo de retorno
+        tipo_retorno = p[6]
         tabla_simbolos["funciones"][nombre_funcion] = {
             "parametros": [],
-            "retorno": p[6]
+            "retorno": tipo_retorno
         }
-    else:  # Con parámetros y tipo de retorno
-        tabla_simbolos["funciones"][nombre_funcion] = {
-            "parametros": p[4] if p[4] else [],
-            "retorno": p[7]
-        }
+        # Registrar también en el módulo semántico
+        semantico.declarar_funcion(nombre_funcion, [], tipo_retorno)
+        print(f"Función '{nombre_funcion}' declarada sin parámetros y tipo de retorno: {tipo_retorno}")
     
-    print(f"Función: {nombre_funcion}")
+    print(f"Función registrada: {nombre_funcion}")
 
 def p_parametros(p):
     '''parametros : parametro
@@ -614,7 +646,10 @@ def p_parametros(p):
     if len(p) == 2:
         p[0] = [p[1]] if p[1] else []
     else:
-        p[0] = p[1] + [p[3]] if p[1] and p[3] else []
+        if isinstance(p[1], list):
+            p[0] = p[1] + [p[3]] if p[3] else p[1]
+        else:
+            p[0] = [p[1], p[3]] if p[1] and p[3] else ([p[1]] if p[1] else [p[3]] if p[3] else [])
 
 def p_parametro(p):
     '''parametro : ID

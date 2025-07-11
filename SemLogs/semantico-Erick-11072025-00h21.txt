@@ -1,0 +1,15 @@
+=== ANÁLISIS SEMÁNTICO - Erick ===
+Fecha: 11/07/2025 00:21:40
+==================================================
+
+ERRORES SEMÁNTICOS ENCONTRADOS:
+-----------------------------------
+1. [ERROR SEMÁNTICO] Función 'sumar' espera 0 parámetros, pero recibió 2
+2. [ERROR SEMÁNTICO] Función 'sumar' espera 0 parámetros, pero recibió 2
+
+Total de errores semánticos: 2
+
+==================================================
+TABLA DE SÍMBOLOS:
+--------------------
+(Vacía)

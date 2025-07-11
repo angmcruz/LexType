@@ -1,0 +1,17 @@
+=== ANÁLISIS SEMÁNTICO - Erick ===
+Fecha: 11/07/2025 00:59:43
+==================================================
+
+✅ No se encontraron errores semánticos
+
+Total de errores semánticos: 0
+
+==================================================
+TABLA DE SÍMBOLOS:
+--------------------
+(Vacía)
+
+==================================================
+TABLA DE FUNCIONES:
+--------------------
+(Vacía)

@@ -1,0 +1,12 @@
+=== ANÁLISIS SEMÁNTICO - Javier ===
+Fecha: 11/07/2025 00:11:47
+==================================================
+
+✅ No se encontraron errores semánticos
+
+Total de errores semánticos: 0
+
+==================================================
+TABLA DE SÍMBOLOS:
+--------------------
+(Vacía)

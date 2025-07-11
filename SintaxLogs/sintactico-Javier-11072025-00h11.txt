@@ -1,0 +1,7 @@
+=== ANÁLISIS SINTÁCTICO - Javier ===
+Fecha: 11/07/2025 00:11:47
+==================================================
+
+ERRORES SINTÁCTICOS ENCONTRADOS:
+--------------------------------
+1. Error de sintaxis: final de entrada inesperado. Falta ;

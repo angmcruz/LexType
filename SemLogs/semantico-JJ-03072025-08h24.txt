@@ -1,0 +1,14 @@
+=== ANÁLISIS SEMÁNTICO - JJ ===
+Fecha: 03/07/2025 08:24:53
+==================================================
+
+ERRORES SEMÁNTICOS ENCONTRADOS:
+-----------------------------------
+1. [ERROR SEMÁNTICO] La variable 'var1' no ha sido declarada.
+
+Total de errores semánticos: 1
+
+==================================================
+TABLA DE SÍMBOLOS:
+--------------------
+var : <sintactico.p_variable.<locals>.Variable object at 0x000001E272EF1010>

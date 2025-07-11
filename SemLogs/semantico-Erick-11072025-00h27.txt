@@ -1,0 +1,16 @@
+=== ANÁLISIS SEMÁNTICO - Erick ===
+Fecha: 11/07/2025 00:27:23
+==================================================
+
+ERRORES SEMÁNTICOS ENCONTRADOS:
+-----------------------------------
+1. [ERROR SEMÁNTICO] Función 'esPalindromo' no ha sido declarada
+2. [ERROR SEMÁNTICO] Función 'sumarDigitos' no ha sido declarada
+3. [ERROR SEMÁNTICO] Función 'esPalindromo' no ha sido declarada
+
+Total de errores semánticos: 3
+
+==================================================
+TABLA DE SÍMBOLOS:
+--------------------
+(Vacía)

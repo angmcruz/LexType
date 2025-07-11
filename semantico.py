@@ -1,10 +1,10 @@
-# ==================== ANÁLISIS SEMÁNTICO ====================
 from datetime import datetime 
 import ply.yacc as yacc
 import os
 
 # Variables globales
 tabla_simbolos = {}
+tabla_funciones = {} 
 errores_semanticos = []
 
 activar = True 
@@ -15,8 +15,9 @@ class ErrorSemantico(Exception):
 
 def reiniciar_tabla():
     """Reinicia la tabla de símbolos y errores"""
-    global tabla_simbolos, errores_semanticos
+    global tabla_simbolos, tabla_funciones, errores_semanticos
     tabla_simbolos = {}
+    tabla_funciones = {}
     errores_semanticos = []
     print("Tabla de símbolos y errores reiniciados")
 
@@ -31,6 +32,21 @@ def declarar_variable(nombre, tipo):
     print(f"✅ Variable declarada: {nombre} : {tipo}")
     return True
 
+def declarar_funcion(nombre, parametros=None, tipo_retorno="void"):
+    """Declara una función en la tabla de funciones"""
+    if not activar:
+        return True
+    
+    if parametros is None:
+        parametros = []
+    
+    tabla_funciones[nombre] = {
+        "parametros": parametros,
+        "retorno": tipo_retorno
+    }
+    print(f"✅ Función declarada: {nombre}({len(parametros)} parámetros) -> {tipo_retorno}")
+    return True
+
 def usar_variable(nombre):
     """Verifica que una variable existe antes de usarla"""
     if not activar:
@@ -39,6 +55,23 @@ def usar_variable(nombre):
         registrar_error(f"La variable '{nombre}' no ha sido declarada.")
         return "unknown"
     return tabla_simbolos[nombre]
+
+def usar_funcion(nombre):
+    """Verifica que una función existe antes de usarla"""
+    if not activar:
+        return True
+    
+    # Funciones built-in permitidas
+    funciones_builtin = ["console", "prompt", "Math", "parseInt", "parseFloat", "toString"]
+    
+    if nombre in funciones_builtin:
+        return "void"
+    
+    if nombre in tabla_funciones:
+        return tabla_funciones[nombre]["retorno"]
+    
+    registrar_error(f"La función '{nombre}' no ha sido declarada.")
+    return "unknown"
 
 def verificar_asignacion(nombre, tipo_valor):
     """Verifica que la asignación sea compatible con el tipo declarado"""
@@ -56,9 +89,21 @@ def verificar_asignacion(nombre, tipo_valor):
 
 def verificar_operacion(tipo1, operador, tipo2):
     """Verifica que una operación sea válida entre dos tipos"""
-    print(f"🔍 Verificando operación: {tipo1} {operador} {tipo2}")
+    print(f"Verificando operación: {tipo1} {operador} {tipo2}")
     if not activar:
         return True
+    
+    # Manejar tipos unknown
+    if tipo1 == "unknown" or tipo2 == "unknown":
+        if operador in ['+', '-', '*', '/', '%']:
+            return "number"
+        elif operador in ['<', '>', '<=', '>=', '==', '!=', '!==', '===']:
+            return "boolean"
+        elif operador in ['&&', '||', 'AND', 'OR']:
+            return "boolean"
+        else:
+            return "unknown"
+    
     # Operaciones aritméticas
     if operador in ['+', '-', '*', '/', '%']:
         if tipo1 == "number" and tipo2 == "number":
@@ -67,15 +112,11 @@ def verificar_operacion(tipo1, operador, tipo2):
             return "string"
         else:
             registrar_error(f"Operación aritmética '{operador}' inválida entre '{tipo1}' y '{tipo2}'")
-            return None
+            return "number"  # Asumimos number para continuar el análisis
     
     # Operaciones de comparación
-    elif operador in ['<', '>', '<=', '>=', '==', '!=', '!==']:
-        if tipo1 == tipo2 or (tipo1 == "unknown" or tipo2 == "unknown"):
-            return "boolean"
-        else:
-            registrar_error(f"Comparación entre tipos incompatibles: '{tipo1}' y '{tipo2}'")
-            return "boolean"  # Devolvemos boolean aunque haya error
+    elif operador in ['<', '>', '<=', '>=', '==', '!=', '!==', '===']:
+        return "boolean"  # Las comparaciones siempre devuelven boolean
 
     # Operaciones lógicas
     elif operador in ['&&', '||', 'AND', 'OR']:
@@ -87,19 +128,22 @@ def verificar_operacion(tipo1, operador, tipo2):
     
     else:
         registrar_error(f"Operador desconocido: '{operador}'")
-        return None
+        return "unknown"
 
 def verificar_funcion_existe(nombre_funcion):
     """Verifica si una función ha sido declarada"""
-    # Lista de funciones built-in
     if not activar:
         return True
-    funciones_builtin = ["console", "prompt", "Math"]
+    
+    # Lista de funciones built-in
+    funciones_builtin = ["console", "prompt", "Math", "parseInt", "parseFloat"]
     
     if nombre_funcion in funciones_builtin:
         return True
     
-    # Aquí podrías verificar en una tabla de funciones declaradas
+    if nombre_funcion in tabla_funciones:
+        return True
+    
     return False
 
 def verificar_metodo_objeto(tipo_objeto, metodo):
@@ -115,12 +159,13 @@ def verificar_metodo_objeto(tipo_objeto, metodo):
     
     # Extraer tipo base
     tipo_base = tipo_objeto
-    if tipo_objeto.endswith("[]"):
-        tipo_base = "array"
-    elif "Map" in tipo_objeto:
-        tipo_base = "Map"
-    elif "Set" in tipo_objeto:
-        tipo_base = "Set"
+    if isinstance(tipo_objeto, str):
+        if tipo_objeto.endswith("[]"):
+            tipo_base = "array"
+        elif "Map" in tipo_objeto:
+            tipo_base = "Map"
+        elif "Set" in tipo_objeto:
+            tipo_base = "Set"
     
     if tipo_base in metodos_validos:
         if metodo not in metodos_validos[tipo_base]:
@@ -131,16 +176,12 @@ def verificar_metodo_objeto(tipo_objeto, metodo):
 
 def registrar_error(mensaje):
     """Registra un error semántico"""
-    
     error_completo = f"[ERROR SEMÁNTICO] {mensaje}"
     errores_semanticos.append(error_completo)
     print(f"❌ {error_completo}")
-    
-
 
 def obtener_errores():
     """Devuelve la lista de errores semánticos"""
-
     return errores_semanticos
 
 def tiene_errores():
@@ -180,6 +221,16 @@ def guardar_log(usuario):
                 f.write(f"{nombre} : {tipo}\n")
         else:
             f.write("(Vacía)\n")
+        
+        # Agregar tabla de funciones
+        f.write("\n" + "=" * 50 + "\n")
+        f.write("TABLA DE FUNCIONES:\n")
+        f.write("-" * 20 + "\n")
+        if tabla_funciones:
+            for nombre, info in tabla_funciones.items():
+                f.write(f"{nombre}({len(info['parametros'])} parámetros) -> {info['retorno']}\n")
+        else:
+            f.write("(Vacía)\n")
     
     return nombre_archivo
 
@@ -189,12 +240,18 @@ def mostrar_resumen():
     print("RESUMEN DEL ANÁLISIS SEMÁNTICO")
     print("=" * 50)
     print(f"Variables declaradas: {len(tabla_simbolos)}")
+    print(f"Funciones declaradas: {len(tabla_funciones)}")
     print(f"Errores encontrados: {len(errores_semanticos)}")
     
     if tabla_simbolos:
         print("\nVariables en tabla de símbolos:")
         for nombre, tipo in tabla_simbolos.items():
             print(f"   • {nombre} : {tipo}")
+    
+    if tabla_funciones:
+        print("\nFunciones en tabla de símbolos:")
+        for nombre, info in tabla_funciones.items():
+            print(f"   • {nombre}({len(info['parametros'])} parámetros) -> {info['retorno']}")
     
     if errores_semanticos:
         print(f"\n❌ Errores semánticos ({len(errores_semanticos)}):")
@@ -205,3 +262,15 @@ def mostrar_resumen():
     
     print("=" * 50)
 
+# Análisis en dos pasadas
+def analizar_en_dos_pasadas(codigo_ast):
+    """Realiza análisis semántico en dos pasadas"""
+    print("Iniciando análisis en dos pasadas...")
+    
+    # PRIMERA PASADA: Recolectar declaraciones de funciones
+    print("Primera pasada: Recolectando declaraciones...")
+    # Esta función sería llamada por el parser
+    
+    # SEGUNDA PASADA: Verificar uso de funciones y variables
+    print("Segunda pasada: Verificando uso...")
+    # Esta función sería llamada por el parser

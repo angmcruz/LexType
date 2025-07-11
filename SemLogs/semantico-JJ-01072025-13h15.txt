@@ -1,0 +1,14 @@
+=== ANÁLISIS SEMÁNTICO - JJ ===
+Fecha: 01/07/2025 13:15:34
+==================================================
+
+ERRORES SEMÁNTICOS ENCONTRADOS:
+-----------------------------------
+1. [ERROR SEMÁNTICO] Incompatibilidad de tipos: no se puede asignar string a variable de tipo number
+
+Total de errores semánticos: 1
+
+==================================================
+TABLA DE SÍMBOLOS:
+--------------------
+num : number

@@ -1,0 +1,15 @@
+=== ANÁLISIS SEMÁNTICO - Javier ===
+Fecha: 11/07/2025 00:09:18
+==================================================
+
+ERRORES SEMÁNTICOS ENCONTRADOS:
+-----------------------------------
+1. [ERROR SEMÁNTICO] Función 'contarPares' no ha sido declarada
+2. [ERROR SEMÁNTICO] Función 'todosMayoresA' no ha sido declarada
+
+Total de errores semánticos: 2
+
+==================================================
+TABLA DE SÍMBOLOS:
+--------------------
+(Vacía)

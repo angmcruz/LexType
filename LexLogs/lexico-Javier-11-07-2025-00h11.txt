@@ -1,0 +1,16 @@
+Línea 159: Reconozco el símbolo 'function' como FUNCTION
+Línea 159: Reconozco el símbolo 'p' como ID
+Línea 159: Reconozco el símbolo '(' como LPAREN
+Línea 159: Reconozco el símbolo ')' como RPAREN
+Línea 159: Reconozco el símbolo '{' como LBRACE
+Línea 160: Reconozco el símbolo 'console' como ID
+Línea 160: Reconozco el símbolo '.' como PUNTO
+Línea 160: Reconozco el símbolo 'log' como ID
+Línea 160: Reconozco el símbolo '(' como LPAREN
+Línea 160: Reconozco el símbolo '"hola mundo"' como STRING
+Línea 160: Reconozco el símbolo ')' como RPAREN
+Línea 160: Reconozco el símbolo ';' como SEMICOLON
+Línea 161: Reconozco el símbolo '}' como RBRACE
+Línea 163: Reconozco el símbolo 'p' como ID
+Línea 163: Reconozco el símbolo '(' como LPAREN
+Línea 163: Reconozco el símbolo ')' como RPAREN
